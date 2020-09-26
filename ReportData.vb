@@ -57,6 +57,28 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getInvoicePaymentSheetbyInvoiceID(id As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_invoice_Payment_By_ID]"
+        Dim strParameter As String = "@id"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getInvoicePaymentSheetbyInvoiceID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getPayrollByPayrollID(id As Integer) As SqlClient.SqlDataAdapter
 
 
