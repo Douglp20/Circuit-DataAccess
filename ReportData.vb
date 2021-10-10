@@ -3,7 +3,7 @@
     End Sub
 
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private connection As New Connection
 
 #Region "Error Control"
@@ -12,7 +12,7 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
-#Region "Get Report Data"
+#Region "Order"
     Public Function getWorkTicketbyOrderID(id As Integer) As SqlClient.SqlDataAdapter
 
 
@@ -35,6 +35,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+#End Region
     Public Function getInvoiceSheetbyInvoiceID(id As Integer) As SqlClient.SqlDataAdapter
 
 
@@ -48,6 +49,58 @@ Err:
 
 
         getInvoiceSheetbyInvoiceID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getCompanyInvoiceStatement(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_company_invoice_statement]"
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+
+
+
+
+        getCompanyInvoiceStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getCompanyInvoiceBatchStatement(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_company_invoice_batch_statement]"
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+
+
+
+
+        getCompanyInvoiceBatchStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -79,6 +132,28 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getInvoiceBatchSheetbyInvoiceID(id As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_batch_invoice_by_id]"
+        Dim strParameter As String = "@id"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getInvoiceBatchSheetbyInvoiceID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getPayrollByPayrollID(id As Integer) As SqlClient.SqlDataAdapter
 
 
@@ -92,6 +167,55 @@ Err:
 
 
         getPayrollByPayrollID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getAppointmentByDate(appDate As String) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_get_appointment_by_date]"
+        Dim strParameter As String = "@date"
+        Dim strType As String = SqlDbType.VarChar
+        Dim strQueryString As String = appDate
+
+
+        getAppointmentByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+#Region "Get Timesheet Data"
+    Public Function getTimesheetUser(value As ArrayList) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_get_timesheet_by_year]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Year")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        getTimesheetUser = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

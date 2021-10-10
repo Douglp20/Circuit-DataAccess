@@ -3,7 +3,7 @@
     End Sub
     Public Event errorMessage(ByVal errDes As String, ByVal errNo As Integer, ByVal errTrace As String)
 
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private Connection As New Connection
 
 #Region "Error Control"
@@ -26,7 +26,7 @@
         Dim strType As String = SqlDbType.Char
         Dim strQueryString As String = LoginID
 
-        Dim d As String = Connection.getConnection
+        ' Dim d As String = Connection.getConnection
 
         getLoginID = ViperCon.getSqlDataAdapterWithParameter(Connection.getConnection, sp, strParameter, strType, strQueryString)
 
@@ -71,7 +71,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
+       
         Dim sp As String
         Dim arrValuesPass As New ArrayList
 
@@ -100,66 +100,53 @@ Err:
         Dim rtn As String = "The error occur within the module " + ToString() + "."
         RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function SaveUserLogin(ByRef arrValues As ArrayList)
+    Public Function UpdateUserLogin(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
-
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-        ''Insert a snew record
-
-        If arrValues(0) = 0 Then
-            sp = "[insert_User_Login]"
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        Else
-            arrParameter.Add("@id")
-            arrType.Add(SqlDbType.Int)
-            sp = "[update_User_Login]"
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        End If
-
-        arrParameter.Add("@StaffID")
-        arrParameter.Add("@LoginID")
-        arrParameter.Add("@per_Admin")
-        arrParameter.Add("@per_Payroll")
-        arrParameter.Add("@per_invoice_admin")
-        arrParameter.Add("@per_invoice")
-        arrParameter.Add("@per_order_admin")
-        arrParameter.Add("@per_order")
-        arrParameter.Add("@per_company")
-        arrParameter.Add("@per_wholesale")
-        arrParameter.Add("@per_disable_login")
-        arrParameter.Add("@per_change_password")
-        arrParameter.Add("@Newpassword")
-        arrParameter.Add("@UserName")
-
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+
+        Dim sp As String = "[update_User_Login]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@LoginID")
+        Parameter.Add("@per_Admin")
+        Parameter.Add("@per_Payroll")
+        Parameter.Add("@per_Staff")
+        Parameter.Add("@per_invoice_admin")
+        Parameter.Add("@per_invoice")
+        Parameter.Add("@per_order_admin")
+        Parameter.Add("@per_order")
+        Parameter.Add("@per_company")
+        Parameter.Add("@per_wholesale")
+        Parameter.Add("@per_disable_login")
+        Parameter.Add("@per_change_password")
+        Parameter.Add("@Newpassword")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function
@@ -168,6 +155,57 @@ Err:
         Dim rtn As String = "The error occur within the module " + ToString() + "."
         RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Sub InsertUserLogin(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[insert_User_Login]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@StaffID")
+        Parameter.Add("@LoginID")
+        Parameter.Add("@per_Admin")
+        Parameter.Add("@per_Payroll")
+        Parameter.Add("@per_Staff")
+        Parameter.Add("@per_invoice_admin")
+        Parameter.Add("@per_invoice")
+        Parameter.Add("@per_order_admin")
+        Parameter.Add("@per_order")
+        Parameter.Add("@per_company")
+        Parameter.Add("@per_wholesale")
+        Parameter.Add("@per_disable_login")
+        Parameter.Add("@per_change_password")
+        Parameter.Add("@Newpassword")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+    End Sub
 #End Region
 #Region "Get Data"
 

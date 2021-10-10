@@ -1,6 +1,7 @@
-﻿Public Class OrderItemData
+﻿
+Public Class OrderItemData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -12,8 +13,30 @@
 
 #End Region
 
-
 #Region "Get Data"
+    Public Function getOrderItemDataOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderitem_by_OrderID]"
+
+        Dim strParameter As String = "@OrderID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = OrderID
+
+
+        getOrderItemDataOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
     Public Function getOrderItemDataOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -53,19 +76,22 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function getcompanypricelistbySearchList(companyID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanyProjectPriceList(arrValue As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Company_get_company_pricelist_by_companyID_List]"
-        Dim strParameter As String = "@companyID"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = companyID
 
+        Dim sp As String = "[Company_get_company_project_pricelist]"
+        Dim arrParameter As New ArrayList
 
+        arrParameter.Add("@companyID")
+        arrParameter.Add("@projectID")
 
-        getcompanypricelistbySearchList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        Dim arrType As New ArrayList
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
 
+        getCompanyProjectPriceList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
 
 
 
@@ -75,14 +101,15 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getcompanypricelistbySearchList(ByRef arrQueryString As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getCompanyProjectPricelistbySearch(ByRef arrValue As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Company_get_companyPriceList_by_Search_List]"
+        Dim sp As String = "[Company_get_company_project_pricelist_search]"
 
         Dim arrParameter As New ArrayList
         arrParameter.Add("@companyID")
+        arrParameter.Add("@ProjectID")
         arrParameter.Add("@SearchText")
 
 
@@ -91,7 +118,7 @@ Err:
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.VarChar)
 
-        getcompanypricelistbySearchList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrQueryString)
+        getCompanyProjectPricelistbySearch = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
 
 
 
@@ -104,86 +131,134 @@ Err:
     End Function
 #End Region
 #Region "Save Data"
-    Public Function SaveOrderItems(ByRef arrValues As ArrayList)
+    Public Function InsertOrderItems(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
 
 
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
-
+        Dim sp As String = "[insert_order_items]"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
 
-        If arrValues(0) = 0 Then
-            ''Insert a new record
-            sp = "[insert_order_items]"
-
-            arrParameter.Add("@code")
-            arrParameter.Add("@description")
-            arrParameter.Add("@staffID")
-            arrParameter.Add("@quantity")
-            arrParameter.Add("@cost")
-            arrParameter.Add("@OrderID")
-            arrParameter.Add("@ItemSplitID")
-            arrParameter.Add("@ItemSplit")
-            arrParameter.Add("@UserName")
 
 
-
-            arrType.Add(SqlDbType.VarChar)
-            arrType.Add(SqlDbType.VarChar)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Float)
-            arrType.Add(SqlDbType.Money)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Bit)
-            arrType.Add(SqlDbType.VarChar)
-
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-
-        Else
-            ''Update an existing record
-
-            sp = "[update_order_items]"
-
-            arrParameter.Add("@id")
-            arrParameter.Add("@code")
-            arrParameter.Add("@description")
-            arrParameter.Add("@staffID")
-            arrParameter.Add("@quantity")
-            arrParameter.Add("@cost")
-            arrParameter.Add("@OrderID")
-            arrParameter.Add("@ItemSplitID")
-            arrParameter.Add("@ItemSplit")
-            arrParameter.Add("@UserName")
-
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.VarChar)
-            arrType.Add(SqlDbType.VarChar)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Float)
-            arrType.Add(SqlDbType.Money)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Int)
-            arrType.Add(SqlDbType.Bit)
-            arrType.Add(SqlDbType.VarChar)
-
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-        End If
+        arrParameter.Add("@code")
+        arrParameter.Add("@description")
+        arrParameter.Add("@staffID")
+        arrParameter.Add("@quantity")
+        arrParameter.Add("@cost")
+        arrParameter.Add("@discount")
+        arrParameter.Add("@OrderID")
+        arrParameter.Add("@ItemSplitID")
+        arrParameter.Add("@ItemSplit")
+        arrParameter.Add("@UserName")
 
 
 
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Money)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.VarChar)
 
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+
+    Public Function UpdateOrderItems(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_items]"
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+
+
+        arrParameter.Add("@id")
+        arrParameter.Add("@code")
+        arrParameter.Add("@description")
+        arrParameter.Add("@staffID")
+        arrParameter.Add("@quantity")
+        arrParameter.Add("@cost")
+        arrParameter.Add("@discount")
+        arrParameter.Add("@OrderID")
+        arrParameter.Add("@ItemSplitID")
+        arrParameter.Add("@ItemSplit")
+        arrParameter.Add("@UserName")
+
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Money)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function InsertOrderQuickItems(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[insert_order_quick_items]"
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+
+
+        arrParameter.Add("@OrderID")
+        arrParameter.Add("@code")
+        arrParameter.Add("@description")
+        arrParameter.Add("@quantity")
+        arrParameter.Add("@cost")
+        arrParameter.Add("@discount")
+        arrParameter.Add("@subTotal")
+        arrParameter.Add("@total")
+        arrParameter.Add("@UserName")
+
+
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Money)
+        arrType.Add(SqlDbType.Float)
+        arrType.Add(SqlDbType.Money)
+        arrType.Add(SqlDbType.Money)
+        arrType.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 
 
         Exit Function
@@ -197,7 +272,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
+
         Dim sp As String
         Dim arrValuesPass As New ArrayList
 
@@ -287,7 +362,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
+
         Dim sp As String = "[delete_order_item]"
         Dim strParameter As String = "@ID"
         Dim strType As String = SqlDbType.Int

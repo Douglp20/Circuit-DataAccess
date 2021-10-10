@@ -1,6 +1,6 @@
 ﻿Public Class AppointmentData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -20,10 +20,10 @@
         On Error GoTo Err
 
 
-        Dim ViperCon As New Viper.Connection.Connection
+
         Dim sp As String = "[Appointment_get_subcontractor_by_date]"
         Dim strParameter As String = "@date"
-        Dim strType As String = SqlDbType.DateTime
+        Dim strType As String = SqlDbType.VarChar
         Dim strQueryString As String = selDate
 
 
@@ -43,8 +43,6 @@ Err:
 
         On Error GoTo Err
 
-
-        Dim ViperCon As New Viper.Connection.Connection
         Dim sp As String = "[Appointment_get_appointment_by_date_ReturnCount]"
 
         Dim arrParameter As New ArrayList
@@ -53,7 +51,7 @@ Err:
 
 
         Dim arrType As New ArrayList
-        arrType.Add(SqlDbType.DateTime)
+        arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.Int)
 
         Dim arrQueryString As New ArrayList
@@ -78,7 +76,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim ViperCon As New Viper.Connection.Connection
+
         Dim sp As String = "[Appointment_get_appointment_by_date]"
 
         Dim arrParameter As New ArrayList
@@ -105,11 +103,64 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function getJobAppointmentByDate(Value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Appointment_get_job_appointment_by_date]"
+
+        Dim Parameter As New ArrayList
+        Parameter.Add("@date")
+        Parameter.Add("@staffID")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.Int)
+
+
+        getJobAppointmentByDate = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getAppointmentListByDate(dte As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Appointment_get_appointment_list_by_date]"
+
+        Dim strParameter As String = "@date"
+
+        Dim strType As String = SqlDbType.DateTime
+
+
+
+        getAppointmentListByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getAvailableSubContractorByDate(dte As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
+
         Dim sp As String = "[Appointment_get_subContractor_list]"
         Dim strParameter As String = "@Date"
         Dim strType As String = SqlDbType.Char
@@ -118,6 +169,23 @@ Err:
 
 
 
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getAvailableSubContractorNotOnLeave(dte As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Appointment_get_subContractor_not_on_leave]"
+        Dim strParameter As String = "@Date"
+        Dim strType As String = SqlDbType.Char
+
+        getAvailableSubContractorNotOnLeave = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
 
         Exit Function
 

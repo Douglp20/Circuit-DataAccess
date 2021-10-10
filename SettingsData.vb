@@ -1,7 +1,7 @@
 ﻿Public Class SettingsData
 
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private connection As New Connection
 #Region "Error Control"
     Private Sub ErrorMessage_event(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String) Handles ViperCon.ErrorMessage
@@ -16,7 +16,7 @@
 
         On Error GoTo Err
 
-        Dim ViperCon As New Viper.Connection.Connection
+       
         Dim sp As String = "[SETTING_get_settings]"
 
 
@@ -40,21 +40,43 @@ Err:
         Dim sp As String = "[update_settings]"
 
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
-        arrParameter.Add("@id")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@info")
+        Parameter.Add("@id")
+        Parameter.Add("@Address")
+        Parameter.Add("@info")
+        Parameter.Add("@signature")
+        Parameter.Add("@CC")
+        Parameter.Add("@BB")
+        Parameter.Add("@reply")
+        Parameter.Add("@smtpauthenticate")
+        Parameter.Add("@sendusername")
+        Parameter.Add("@sendpassword")
+        Parameter.Add("@smtpserver")
+        Parameter.Add("@sendusing")
+        Parameter.Add("@smtpserverport")
+        Parameter.Add("@smtpusessl")
+        Parameter.Add("@vatReverse")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
 
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
 
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 
 
         Exit Function

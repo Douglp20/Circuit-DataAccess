@@ -3,7 +3,7 @@
     End Sub
 
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
 
 
@@ -31,6 +31,22 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getCompanyJobTypePercentage() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Company_get_jobType_percentage]"
+
+        getCompanyJobTypePercentage = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
     Public Function getAllCompanyList() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -73,6 +89,27 @@ Err:
 
 
         getCompanybyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getCompanyJobTypebyID(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Company_get_company_by_id]"
+        Dim strParameter As String = "@id"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getCompanyJobTypebyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -172,36 +209,19 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 #End Region
-#Region "Get JobType Data"
-    Public Function getAllJobTypeDropDownList() As SqlClient.SqlDataAdapter
+#Region "Get Project Type"
 
-        On Error GoTo Err
-
-        Dim sp As String = "[Jobtype_get_all_jobtype_dropdown_list]"
-
-        getAllJobTypeDropDownList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-
-    End Function
-    Public Function getJobTypebyCompanyID(id As Integer) As SqlClient.SqlDataAdapter
-
+    Public Function getCompanyProjectTypeByCompanyID(id As Integer) As SqlClient.SqlDataAdapter
         On Error GoTo Err
 
 
-        Dim sp As String = "[Jobtype_get_jobtype_by_companyID]"
-        Dim strParameter As String = "@companyID"
+        Dim sp As String = "[Company_get_projectType_by_companyID]"
+        Dim strParameter As String = "@Companyid"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id
 
 
-        getJobTypebyCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getCompanyProjectTypeByCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -210,42 +230,42 @@ Err:
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Function
-    Public Function getCompanyJobTypebyID(id As Integer) As SqlClient.SqlDataAdapter
 
+    End Function
+#End Region
+#Region "Get Job Type"
+
+    Public Function getCompanyJobTypeListByContactID(id As Integer) As SqlClient.SqlDataAdapter
         On Error GoTo Err
 
-
-        Dim sp As String = "[Jobtype_get_jobtype_by_ID]"
-        Dim strParameter As String = "@ID"
+        ''Company_get_jobType_by_contactID
+        Dim sp As String = "[Company_get_jobType_by_contactID]"
+        Dim strParameter As String = "@ContactID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id
 
 
-        getCompanyJobTypebyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
-
-
+        getCompanyJobTypeListByContactID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
         Exit Function
 
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Function
-    Public Function getJobTypeBYCompanyIDDropDownList(companyID As Integer) As SqlClient.SqlDataAdapter
 
+    End Function
+    Public Function getCompanyJobTypeByCompanyID(id As Integer) As SqlClient.SqlDataAdapter
         On Error GoTo Err
 
-        Dim sp As String = "[Company_get_jobType_By_companyID_dropdown_list]"
+
+        Dim sp As String = "[Company_get_jobType_by_companyID]"
+
         Dim strParameter As String = "@companyID"
+
         Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = companyID
+        Dim strQueryString As String = id
 
-
-
-        getJobTypeBYCompanyIDDropDownList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
-
-
+        getCompanyJobTypeByCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
         Exit Function
@@ -253,42 +273,62 @@ Err:
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
     End Function
 #End Region
 #Region "Save Company Data"
-    Public Function SaveCompanyDetail(ByRef arrValues As ArrayList)
+    Public Function InsertSaveCompany(ByRef arrValues As ArrayList) As Integer
 
         On Error GoTo Err
 
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
 
+        Dim storeProcedure As String = "[insert_company]"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
-        ''Insert a snew record
-
-        If arrValues(0) = 0 Then
-            sp = "[insert_company]"
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        Else
-            arrParameter.Add("@id")
-            arrType.Add(SqlDbType.Int)
-            sp = "[update_company]"
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        End If
+        Dim strParameterOutput As String = "@ID"
 
 
         arrParameter.Add("@Company")
         arrParameter.Add("@Address")
         arrParameter.Add("@Postcode")
+        arrParameter.Add("@UserName")
+
+
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+
+        arrType.Add(SqlDbType.VarChar)
+
+
+        InsertSaveCompany = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, storeProcedure, arrParameter, strParameterOutput, arrType, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateSaveCompany(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim arrValuesPass As New ArrayList
+
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+        Dim storeProcedure As String = "[update_company]"
+
+
+
+        arrParameter.Add("@id")
+        arrParameter.Add("@Company")
+        arrParameter.Add("@Address")
+        arrParameter.Add("@Postcode")
         arrParameter.Add("@worksheetnotes")
-        arrParameter.Add("@abbreviation")
+        arrParameter.Add("@notes")
         arrParameter.Add("@companyType")
         arrParameter.Add("@reportToID")
         arrParameter.Add("@invoice_materials_percent")
@@ -298,9 +338,14 @@ Err:
         arrParameter.Add("@daily_appointment_reports")
         arrParameter.Add("@disabled")
         arrParameter.Add("@monthly_valuation_report")
+        arrParameter.Add("@SageACRef")
+        arrParameter.Add("@vat_charge")
+        arrParameter.Add("@portal_update")
+        arrParameter.Add("@batch_invoice")
         arrParameter.Add("@UserName")
 
-
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
@@ -316,9 +361,13 @@ Err:
         arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, storeProcedure, arrParameter, arrType, arrValues)
 
 
         Exit Function
@@ -365,6 +414,7 @@ Err:
         arrParameter.Add("@Telephone")
         arrParameter.Add("@Mobile")
         arrParameter.Add("@JobTitle")
+        arrParameter.Add("@Notes")
         arrParameter.Add("@UserName")
 
         arrType.Add(SqlDbType.Int)
@@ -375,7 +425,7 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
-
+        arrType.Add(SqlDbType.VarChar)
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
@@ -388,48 +438,154 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 #End Region
-#Region "Save Company Job Type Data"
-    Public Sub SaveCompanyJobTypeDetail(ByRef arrValues As ArrayList)
+#Region "Save and  Company Project and JobType Data"
+    Public Sub DeleteCompanyJobTypeDetail(ByRef id As Integer)
+
+        On Error GoTo Err
+        Dim sp As String = "[delete_company_jobtype]"
+
+
+        Dim Parameter As String = "@Companyid"
+        Dim Type As String = SqlDbType.Int
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, id)
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub DeleteCompanyProjectTypeDetail(ByRef id As Integer)
+
+        On Error GoTo Err
+        Dim sp As String = "[delete_company_projecttype]"
+
+        Dim Parameter As String = "@Companyid"
+        Dim Type As String = SqlDbType.Int
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, id)
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub SaveCompanyJobType(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
+        Dim sp As String = "[insert_company_jobtype]"
+
+
+        Dim Parameter As New ArrayList
+        Parameter.Add("@companyid")
+        Parameter.Add("@jobtypeid")
+        Parameter.Add("@percentage")
+        Parameter.Add("@UserName")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub SaveCompanyProjectType(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[insert_company_projectType]"
+
+
+        Dim Parameter As New ArrayList
+        Parameter.Add("@companyid")
+        Parameter.Add("@projecttypeid")
+        Parameter.Add("@UserName")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+
+    Public Sub DeleteCompanyContactJobTypeDetail(ByRef id As Integer)
+
+        On Error GoTo Err
+        Dim sp As String = "[delete_company_contact_jobtype]"
+        Dim strParameter As String = "@ContactID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub SaveCompanyContactJobType(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[insert_company_contact_jobtype]"
+
 
         Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-        ''Insert a snew record
-
-        If arrValues(0) = 0 Then
-            sp = "[insert_company_jobtype]"
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        Else
-            arrParameter.Add("@id")
-            arrType.Add(SqlDbType.Int)
-            sp = "[update_company_jobtype]"
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        End If
-
-        arrParameter.Add("@Companyid")
+        arrParameter.Add("@Contactid")
         arrParameter.Add("@jobtypeid")
-        arrParameter.Add("@percentage")
         arrParameter.Add("@UserName")
 
-
-        arrType.Add(SqlDbType.Int)
+        Dim arrType As New ArrayList
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub DeleteCompanyContactDetail(ByRef id As Integer)
+
+        On Error GoTo Err
+        Dim sp As String = "[delete_company_contact]"
+        Dim strParameter As String = "@ID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
         Exit Sub
 
@@ -439,18 +595,22 @@ Err:
     End Sub
 #End Region
 #Region "Get Compnay Price List"
-    Public Function getCompanyPriceListbyCompanyID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanyProjectPriceList(arrValue As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[Company_get_company_pricelist_by_companyID_List]"
-        Dim strParameter As String = "@companyID"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim sp As String = "[Company_get_company_project_pricelist]"
+        Dim arrParameter As New ArrayList
 
+        arrParameter.Add("@companyID")
+        arrParameter.Add("@projectID")
 
-        getCompanyPriceListbyCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        Dim arrType As New ArrayList
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+
+        getCompanyProjectPriceList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
 
 
 
@@ -466,17 +626,15 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
+        Dim sp As String = "[insert_Update_company_PriceList]"
 
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
-        sp = "[insert_Update_company_PriceList]"
-        For i As Integer = 0 To arrValues.Count - 1
-            arrValuesPass.Add(arrValues(i))
-        Next
+
+
 
         arrParameter.Add("@CompanyID")
+        arrParameter.Add("@projectID")
         arrParameter.Add("@code")
         arrParameter.Add("@description")
         arrParameter.Add("@price")
@@ -484,13 +642,14 @@ Err:
         arrParameter.Add("@UserName")
 
         arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.VarChar)
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 
 
         Exit Sub
@@ -501,19 +660,145 @@ Err:
     End Sub
 #End Region
 #Region "Delete Company Price List"
-    Public Sub deleteCompanyPriceListCompanyID(id As Integer)
+    Public Sub deleteCompanyPojectPriceList(arrValue As ArrayList)
 
         On Error GoTo Err
 
 
         Dim sp As String = "[delete_company_priceList]"
-        Dim strParameter As String = "@companyID"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim arrParameter As New ArrayList
+
+        arrParameter.Add("@companyID")
+        arrParameter.Add("@projectID")
+
+        Dim arrType As New ArrayList
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
 
 
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
+#Region "Save Company CompareStatement"
+
+    Public Function getCompanyCompareStatement(Value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Company_get_compareStatement_by_ID]"
+        Dim arrParameter As New ArrayList
+
+        Dim Parameter As String = "@companyID"
+
+        Dim Type As String = SqlDbType.Int
+
+
+        getCompanyCompareStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Sub SaveCompanyCompareStatement(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[insert_company_Compare_Statement]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@OrderNumber")
+        Parameter.Add("@JobNumber")
+        Parameter.Add("@AltJobNumber")
+        Parameter.Add("@OrderDate")
+        Parameter.Add("@Address")
+        Parameter.Add("@Code")
+        Parameter.Add("@Description")
+        Parameter.Add("@Quantity")
+        Parameter.Add("@TotalValue")
+        Parameter.Add("@POCompletionDate")
+        Parameter.Add("@ClaimedValue")
+        Parameter.Add("@sort")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+
+    Public Sub CompanyCompareStatement(value As Integer)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Update_company_Compare_Statement]"
+
+        Dim Parameter As String = "@companyID"
+
+        Dim Type As String = SqlDbType.Int
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub deleteCompanyCompareStatement(value As Integer)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Delete_company_Compare_Statement]"
+
+        Dim Parameter As String = "@companyID"
+
+        Dim Type As String = SqlDbType.Int
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

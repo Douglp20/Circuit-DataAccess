@@ -3,7 +3,7 @@
 
     End Sub
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
 #Region "Error Control"
     Private Sub ErrorMessage_event(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String) Handles ViperCon.ErrorMessage
@@ -14,18 +14,18 @@
 
 
 #Region "Get Data  Invoice"
-    Public Function getInvoiceByOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getInvoiceByOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Invoice_get_invoice_by_OrderID_List]"
+        Dim sp As String = "[Invoice_get_invoice_by_OrderID]"
         Dim strParameter As String = "@OrderID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = OrderID
 
 
 
-        getInvoiceByOrderIDList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getInvoiceByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -60,18 +60,18 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 
-    Public Function getUnInvoiceItemByOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderItemWaitingInvocingByOrder(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Invoice_get_UnInvoiced_OrderItem_by_OrderID_list]"
+        Dim sp As String = "[Invoice_get_OrderItem_waiting_invocing_by_OrderID]"
         Dim strParameter As String = "@OrderID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = OrderID
 
 
 
-        getUnInvoiceItemByOrderIDList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderItemWaitingInvocingByOrder = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -86,7 +86,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Invoice_get_OrderItem_by_InvoiceID_List]"
+        Dim sp As String = "[Invoice_get_OrderItem_by_InvoiceID]"
         Dim strParameter As String = "@InvoiceID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = InvoiceID
@@ -104,11 +104,11 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getInvoiceOrderCompanyByOrderYearList(arrValues As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getInvoicedCompanyByYear(arrValues As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Invoice_get_invoice_orders_Company_by_year_list]"
+        Dim sp As String = "[Invoice_get_Invoiced_Company_by_year]"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
 
@@ -121,7 +121,7 @@ Err:
 
 
 
-        getInvoiceOrderCompanyByOrderYearList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+        getInvoicedCompanyByYear = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 
 
 
@@ -132,23 +132,24 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getInvoiceOrderByCompanyIDandYear(arrValues As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getInvoicedByCompanyID(Values As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Invoice_get_invoice_orders_By_CompanyIDandYear]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim sp As String = "[Invoice_get_Invoiced_by_companyID]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
-        arrParameter.Add("@CompanyID")
-        arrParameter.Add("@Year")
-        arrParameter.Add("@Month")
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Char)
-        arrType.Add(SqlDbType.Char)
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
 
-        getInvoiceOrderByCompanyIDandYear = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Char)
+        Type.Add(SqlDbType.Char)
+
+        getInvoicedByCompanyID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function
@@ -157,26 +158,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function GetInvoiceByInvoiceNoList(ByRef arrValues As ArrayList)
+    Public Function GetInvoiceByInvoiceNo(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String
         Dim arrValuesPass As New ArrayList
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
-        sp = "[Invoice_get_invoice_InvoiceNo_List]"
+        sp = "[Invoice_get_invoice_by_InvoiceNo]"
 
-        arrParameter.Add("@Index")
-        arrParameter.Add("@InvoiceNo")
+        Parameter.Add("@Index")
+        Parameter.Add("@InvoiceNo")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
 
 
-        GetInvoiceByInvoiceNoList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+        GetInvoiceByInvoiceNo = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function
@@ -292,6 +293,61 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 
+#End Region
+
+#Region "Orders waiting to be Invoiced"
+    Public Function getCompanyOrderToBeInvoiced(ID As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Invoice_get_company_waiting_Invoicing]"
+
+        Dim strParameter As String = "@ID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = ID
+
+
+
+        getCompanyOrderToBeInvoiced = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getOrderToBeInvoicedByCompanyID(arrValues As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Invoice_get_order_waiting_invoicing_by_companyID]"
+
+        Dim arrValuesPass As New ArrayList
+
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+
+
+        arrParameter.Add("@companyID")
+        arrParameter.Add("@OrderID")
+
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+
+
+        getOrderToBeInvoicedByCompanyID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 #End Region
 #Region "Save Data Invoice"
     Public Function CreateNewInvoice(ByRef arrValues As ArrayList) As Integer

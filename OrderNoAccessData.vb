@@ -1,6 +1,6 @@
 ﻿Public Class OrderNoAccessData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -51,19 +51,23 @@ Err:
     End Function
 #End Region
 #Region "Save Data"
-    Public Sub DeleteNoAccess(ByRef ID As Integer)
+    Public Sub DeleteNoAccess(ByRef arrValue As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String = "[delete_noAccess]"
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
 
-        Dim Parameter As String = "@id"
-
-        Dim Type As String = "SqlDbType.Int"
-
+        arrParameter.Add("@id")
+        arrParameter.Add("@orderID")
 
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString(), sp, Parameter, Type, ID)
+        arrType.Add("SqlDbType.Int")
+        arrType.Add("SqlDbType.Int")
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrValue)
 
 
         Exit Sub

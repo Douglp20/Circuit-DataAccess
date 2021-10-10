@@ -1,6 +1,6 @@
 ﻿Public Class WholesalersData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -152,32 +152,34 @@ Err:
     End Function
 #End Region
 #Region "Save Wholesaler"
-    Public Function SaveWholesalerDetail(ByRef arrValues As ArrayList)
+
+    Public Sub DeleteWholesalerContactDetail(ID As Integer)
+        On Error GoTo Err
+
+        Dim SP As String = "[delete_wholesaler_contact]"
+        Dim strParameter As String = "@ID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = ID
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+    Public Function InsertWholesalerDetail(ByRef arrValues As ArrayList) As Integer
 
         On Error GoTo Err
 
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
-
+        Dim storeProcedure As String = "[insert_wholesaler_detail]"
+        Dim strParameterOutput As String = "@ID"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
-        ''Insert a new record
-
-        If arrValues(0) = 0 Then
-            sp = "[insert_wholesaler_detail]"
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        Else
-            arrParameter.Add("@id")
-            arrType.Add(SqlDbType.Int)
-            sp = "[update_wholesaler_detail]"
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        End If
 
 
         arrParameter.Add("@wholesaler")
@@ -188,6 +190,7 @@ Err:
         arrParameter.Add("@Email")
         arrParameter.Add("@WWW")
         arrParameter.Add("@account_no")
+        arrParameter.Add("@SageACRef")
         arrParameter.Add("@UserName")
 
         arrType.Add(SqlDbType.VarChar)
@@ -199,10 +202,57 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
 
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        InsertWholesalerDetail = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, storeProcedure, arrParameter, strParameterOutput, arrType, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateWholesalerDetail(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+        Dim storeProcedure As String = "[update_wholesaler_detail]"
+        Dim arrValuesPass As New ArrayList
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+
+
+
+        arrParameter.Add("@id")
+        arrParameter.Add("@wholesaler")
+        arrParameter.Add("@Address")
+        arrParameter.Add("@Postcode")
+        arrParameter.Add("@disabled")
+        arrParameter.Add("@notes")
+        arrParameter.Add("@Email")
+        arrParameter.Add("@WWW")
+        arrParameter.Add("@account_no")
+        arrParameter.Add("@SageACRef")
+        arrParameter.Add("@UserName")
+
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Bit)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, storeProcedure, arrParameter, arrType, arrValues)
 
 
         Exit Function
@@ -213,55 +263,109 @@ Err:
     End Function
 #End Region
 #Region "Save Contact Data"
-    Public Function SaveWholesalerContactDetail(ByRef arrValues As ArrayList)
+    Public Function UpdateWholesalerContactDetail(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
 
-        Dim sp As String
+        Dim sp As String = "[update_wholesaler_contact_detail]"
         Dim arrValuesPass As New ArrayList
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        'Update a new record
+
+        Parameter.Add("@id")
+        Parameter.Add("@WholesalerID")
+        Parameter.Add("@FirstName")
+        Parameter.Add("@Surname")
+        Parameter.Add("@Email")
+        Parameter.Add("@Telephone")
+        Parameter.Add("@Mobile")
+        Parameter.Add("@City")
+        Parameter.Add("@JobTitle")
+        Parameter.Add("@Notes")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function InsertWholesalerContactDetail(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[insert_wholesaler_contact_detail]"
+        Dim arrValuesPass As New ArrayList
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
         'Insert a new record
 
-        If arrValues(0) = 0 Then
-            sp = "[insert_wholesaler_contact_detail]"
-            For i As Integer = 1 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        Else
-            arrParameter.Add("@id")
-            arrType.Add(SqlDbType.Int)
-            sp = "[update_wholesaler_contact_detail]"
-            For i As Integer = 0 To arrValues.Count - 1
-                arrValuesPass.Add(arrValues(i))
-            Next
-
-        End If
 
 
-        arrParameter.Add("@WholesalerID")
-        arrParameter.Add("@FirstName")
-        arrParameter.Add("@Surname")
-        arrParameter.Add("@Email")
-        arrParameter.Add("@Telephone")
-        arrParameter.Add("@Mobile")
-        arrParameter.Add("@JobTitle")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@WholesalerID")
+        Parameter.Add("@FirstName")
+        Parameter.Add("@Surname")
+        Parameter.Add("@Email")
+        Parameter.Add("@Telephone")
+        Parameter.Add("@Mobile")
+        Parameter.Add("@City")
+        Parameter.Add("@JobTitle")
+        Parameter.Add("@Notes")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
+
+#Region "Get City"
+
+    Public Function getWholesalerCity() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Wholesaler_get_city]"
 
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        getWholesalerCity = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
 
         Exit Function

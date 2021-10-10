@@ -1,6 +1,6 @@
 ﻿Public Class StaffData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -153,7 +153,7 @@ Err:
         arrParameter.Add("@subContractor")
         arrParameter.Add("@HourlyRate")
         arrParameter.Add("@voidworker")
-
+        arrParameter.Add("@staffCheck")
 
 
         arrType.Add(SqlDbType.Int)
@@ -187,6 +187,7 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.SmallMoney)
+        arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.Bit)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)

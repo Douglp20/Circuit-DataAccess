@@ -2,7 +2,7 @@
     Public Sub New()
     End Sub
 
-    Private WithEvents ViperCon As New Viper.Connection.Connection()
+    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
     Private Connection As New Connection
 
 #Region "Error Control"

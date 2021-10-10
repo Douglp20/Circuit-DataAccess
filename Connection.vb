@@ -12,17 +12,43 @@
 
 #End Region
 
-    Private Const constConnectionString = "ConnectionString"
-    Private Const constPWDString = "pwd"
-    Private Const constUserNameString = "UserName"
-    Private Const constServerString = "Server"
-    Private Const constReportDatabaseString = "ReportDatabase"
+    Private Const constConnectionStringProd = "ConnectionString-prod"
+    Private Const constPWDStringProd = "pwd-prod"
+    Private Const constUserNameStringProd = "UserName-prod"
+    Private Const constServerStringProd = "Server-prod"
+    Private Const constReportDatabaseStringProd = "ReportDatabase-prod"
+
+    Private Const constConnectionStringTest = "ConnectionString-test"
+
+    Private Const constConnectionStringDev = "ConnectionString-dev"
+    Private Const constPWDStringDev = "pwd-dev"
+    Private Const constUserNameStringDev = "UserName-dev"
+    Private Const constServerStringDev = "Server-dev"
+    Private Const constReportDatabaseStringDev = "ReportDatabase-dev"
 
     Public Function ConnectionString() As String
         Return getConnection()
+
     End Function
     Public Function getConnection() As String
-        Dim connnectionEnvironment As String = System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionString).ToString()
-        Return VenomSecurity.Decode(System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionString).ToString())
+
+        Dim curEnvironment As String = VenomRegistry.GetSetting("Settings", modRegistry.Environment, "")
+        Dim connnectionEnvironment As String = String.Empty
+
+        If curEnvironment = "" Then
+            connnectionEnvironment = System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionStringProd).ToString
+        Else
+            Select Case curEnvironment
+                Case modRegistry.Production
+                    connnectionEnvironment = System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionStringProd).ToString
+                Case modRegistry.Development
+                    connnectionEnvironment = System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionStringDev).ToString
+                Case modRegistry.Testing
+                    connnectionEnvironment = System.Configuration.ConfigurationManager.ConnectionStrings(constConnectionStringTest).ToString
+            End Select
+
+        End If
+
+        Return VenomSecurity.Decode(connnectionEnvironment.ToString())
     End Function
 End Class
