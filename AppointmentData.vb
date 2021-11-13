@@ -131,21 +131,28 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function getAppointmentListByDate(dte As String) As SqlClient.SqlDataAdapter
+    Public Function getAppointmentListByDate(value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-
-
         Dim sp As String = "[Appointment_get_appointment_list_by_date]"
 
-        Dim strParameter As String = "@date"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@date")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Priority")
+        Parameter.Add("@Index")
 
-        Dim strType As String = SqlDbType.DateTime
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
 
 
+        getAppointmentListByDate = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
 
-        getAppointmentListByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
+
 
 
 

@@ -35,6 +35,28 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getOrderSearch(value As String) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_get_order_by_search]"
+        Dim Parameter As String = "@PassWhere"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getOrderSearch = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 #End Region
     Public Function getInvoiceSheetbyInvoiceID(id As Integer) As SqlClient.SqlDataAdapter
 
@@ -224,6 +246,36 @@ Err:
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
+
+#Region "Wholesaler"
+    Public Function getSubContractortMaterial(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[REPORT_get_wholesaler_by_subContractor]"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
+
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+        getSubContractortMaterial = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
     End Function
 #End Region
 End Class

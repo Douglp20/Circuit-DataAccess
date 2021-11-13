@@ -36,13 +36,14 @@ Err:
 #Region "Get  Data"
 
 
-    Public Function getAllTastAssignment() As SqlClient.SqlDataAdapter
+    Public Function getAllTaskAssignment(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Task_get_all_taskAssignment]"
-
-        getAllTastAssignment = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+        Dim Parameter As String = "@Index"
+        Dim Type As String = SqlDbType.Int
+        getAllTaskAssignment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -51,25 +52,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getAllTastAssignmentByLoginID(loginID As String, Index As Integer) As SqlClient.SqlDataAdapter
+
+    Public Function getAllTaskAssignmentByLoginID(loginID As String, Index As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Task_get_taskAssignment_by_LoginID]"
-        Dim arrParameters As New ArrayList
-        arrParameters.Add("@LoginID")
-        arrParameters.Add("@Index")
+        Dim Parameter As New ArrayList
+        Parameter.Add("@LoginID")
+        Parameter.Add("@Index")
 
-        Dim arrTypes As New ArrayList
-        arrTypes.Add(SqlDbType.Char)
-        arrTypes.Add(SqlDbType.Char)
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Char)
+        Type.Add(SqlDbType.Char)
 
-        Dim arrQueryString As New ArrayList
-        arrQueryString.Add(loginID)
-        arrQueryString.Add(Index)
+        Dim value As New ArrayList
+        value.Add(loginID)
+        value.Add(Index)
 
 
-        getAllTastAssignmentByLoginID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameters, arrTypes, arrQueryString)
+        getAllTaskAssignmentByLoginID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -140,7 +142,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Mail_get_sub_taskAssignment]"
+        Dim sp As String = "[task_get_mail_sub_taskAssignment]"
         Dim Parameter As String = "@OrderID"
         Dim Type As String = SqlDbType.Int
 
@@ -158,7 +160,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_mail_sub_taskAssignment]"
+        Dim sp As String = "[update_task_mail_sub_taskAssignment]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
         Parameter.Add("@OrderID")
@@ -202,6 +204,7 @@ Err:
         arrParameter.Add("@priority")
         arrParameter.Add("@active")
         arrParameter.Add("@status")
+        arrParameter.Add("@OrderID")
         arrParameter.Add("@UserName")
 
         arrType.Add(SqlDbType.VarChar)
@@ -211,6 +214,7 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.VarChar)
 
 

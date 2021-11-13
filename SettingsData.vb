@@ -58,6 +58,8 @@ Err:
         Parameter.Add("@smtpserverport")
         Parameter.Add("@smtpusessl")
         Parameter.Add("@vatReverse")
+        Parameter.Add("@CustomerEmail")
+        Parameter.Add("@WholesalerEmail")
 
 
         Type.Add(SqlDbType.Int)
@@ -73,6 +75,8 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
 

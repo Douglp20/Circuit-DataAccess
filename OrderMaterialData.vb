@@ -17,7 +17,7 @@
         On Error GoTo Err
 
 
-        Dim sp As String = "[get_material_wholesaler_mail_info]"
+        Dim sp As String = "Order_get_material_wholesaler_mail_info]"
 
 
         Dim Parameter As String = "@MatID"

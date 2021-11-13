@@ -55,7 +55,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[delete_noAccess]"
+        Dim sp As String = "[delete_order_noAccess]"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
 
@@ -82,7 +82,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[insert_noAccess]"
+        Dim sp As String = "[insert_order_noAccess]"
 
         Dim Parameter As New ArrayList
         Parameter.Add("@Orderid")
@@ -115,7 +115,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[update_noAccess]"
+        Dim sp As String = "[update_order_noAccess]"
 
         Dim Parameter As New ArrayList
         Parameter.Add("@id")

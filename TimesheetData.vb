@@ -20,7 +20,7 @@
         On Error GoTo Err
 
 
-        Dim sp As String = "[timesheet_get_timesheet_by_ID]"
+        Dim sp As String = "[STAFF_timesheet_get_timesheet_by_ID]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
@@ -44,7 +44,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[insert_timesheet]"
+        Dim sp As String = "[insert_staff_timesheet]"
 
 
         Dim Parameter As New ArrayList

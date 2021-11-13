@@ -417,5 +417,33 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function GetInvoiceByBatchNo(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String
+        Dim arrValuesPass As New ArrayList
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        sp = "[Batch_get_invoice_by_BatchNo]"
+
+        Parameter.Add("@Index")
+        Parameter.Add("@BatchNo")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+
+        GetInvoiceByBatchNo = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 #End Region
 End Class

@@ -16,13 +16,16 @@
 
 
 #Region "Get Company Data"
-    Public Function getAllCompanyDropdownlist() As SqlClient.SqlDataAdapter
+    Public Function getAllCompanyDropdownlist(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Company_get_all_company_dropdown_list]"
+        Dim Parameter As String = "@index"
+        Dim Type As String = SqlDbType.Int
 
-        getAllCompanyDropdownlist = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+        getAllCompanyDropdownlist = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function

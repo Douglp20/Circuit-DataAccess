@@ -324,6 +324,50 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getStaffAbsenceViewer(ByRef Value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[StaffAbsence_get_AbsenceView]"
+
+        Dim arrParameter As New ArrayList
+        Dim arrType As New ArrayList
+        arrParameter.Add("@Year")
+        arrParameter.Add("@Month")
+        arrParameter.Add("@StaffID")
+        arrParameter.Add("@Index")
+
+        arrType.Add(SqlDbType.Char)
+        arrType.Add(SqlDbType.Char)
+        arrType.Add(SqlDbType.Int)
+        arrType.Add(SqlDbType.Int)
+
+        getStaffAbsenceViewer = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, Value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getAllStaffList() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Staff_get_all_list_Users]"
+
+        getAllStaffList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getStaffAbsenceDatebyID(ID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -350,7 +394,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[StaffAdbsence_get_staff_workdaysByStaffID]"
+        Dim sp As String = "[StaffAbsence_get_staff_workdays_By_StaffID]"
         Dim strParameter As String = "@Staffid"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID

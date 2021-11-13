@@ -13,7 +13,7 @@
 
         On Error GoTo Err
 
-        Dim sp As String = "[Wholesale_get_all_wholesalers_list]"
+        Dim sp As String = "[Wholesaler_get_all_wholesaler_list]"
 
         getAllWholesalers = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
@@ -28,7 +28,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Wholesale_get_all_wholesale_Dropdown_list]"
+        Dim sp As String = "[Wholesaler_get_all_wholesaler_Dropdown_list]"
 
         getAllWholesalerDropdownList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
@@ -44,7 +44,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Wholesaler_get_wholesalers_by_search]"
+        Dim sp As String = "[Wholesaler_get_wholesaler_by_search]"
 
         Dim strParameter As String = "@search"
         Dim strType As String = SqlDbType.VarChar
@@ -66,7 +66,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Wholesale_get_wholesalers_by_ID]"
+        Dim sp As String = "[Wholesaler_get_wholesaler_by_ID]"
         Dim strParameter As String = "@ID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID
@@ -89,7 +89,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Wholesale_get_wholesaler_contact_by_wholesalerID]"
+        Dim sp As String = "[Wholesaler_get_wholesaler_contact_by_wholesalerID]"
         Dim strParameter As String = "@ID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID
@@ -111,7 +111,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Wholesale_get_wholesaler_contact_by_ID]"
+        Dim sp As String = "[Wholesaler_get_wholesaler_contact_by_ID]"
         Dim strParameter As String = "@ID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID
@@ -129,17 +129,17 @@ Err:
     End Function
 #End Region
 #Region "Get Wholesaler Material"
-    Public Function getWholesalerOrderMaterialByID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getWholesalerOrderMaterialByID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Wholesaler_get_ordermaterial_by_ID]"
-        Dim strParameter As String = "@Wholesalerid"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim Parameter As String = "@Wholesalerid"
+        Dim Type As String = SqlDbType.Int
 
 
-        getWholesalerOrderMaterialByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+        getWholesalerOrderMaterialByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -150,6 +150,36 @@ Err:
 
 
     End Function
+
+
+    Public Function getSubContractortMaterial(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Wholesaler_get_wholesaler_by_advance_search]"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
+
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+        getSubContractortMaterial = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
 #End Region
 #Region "Save Wholesaler"
 
