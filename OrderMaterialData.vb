@@ -13,27 +13,7 @@
 
 #Region "Get Order Material"
 
-    Public Function GetMailMaterial(value As Integer) As SqlClient.SqlDataAdapter
-        On Error GoTo Err
 
-
-        Dim sp As String = "Order_get_material_wholesaler_mail_info]"
-
-
-        Dim Parameter As String = "@MatID"
-        Dim Type As String = SqlDbType.Int
-
-
-
-        GetMailMaterial = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Function
 
     Public Function getOrderMaterialByID(id As Integer) As SqlClient.SqlDataAdapter
 
@@ -148,32 +128,7 @@ Err:
 
 
 #Region "Save Material"
-    Public Sub UpdateMailWholesaler(value As ArrayList)
-        On Error GoTo Err
 
-
-        Dim sp As String = "[update_service_mail_Wholesaler]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-        Parameter.Add("@ID")
-        Parameter.Add("@subject")
-        Parameter.Add("@emailMessage")
-
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
-
-
-
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Sub
 
     Public Sub InsertMaterial(ByRef arrValue As ArrayList)
         On Error GoTo Err

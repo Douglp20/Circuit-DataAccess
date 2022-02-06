@@ -157,6 +157,36 @@ Err:
         Dim rtn As String = "The error occur within the module " + ToString() + "."
         RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function UpdateUserLoginLocked(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+
+
+        Dim sp As String = "[update_User_Login_Locked]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@LoginID")
+        Parameter.Add("@locked")
+
+
+
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+
+
+        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Sub InsertUserLogin(ByRef Values As ArrayList)
 
         On Error GoTo Err

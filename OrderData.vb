@@ -82,6 +82,28 @@ Err:
 
 
     End Function
+    Public Function getOrderDataQuickSearchbyIndex(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Order_get_quick_search_by_index]"
+        Dim Parameter As String = "@Index"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getOrderDataQuickSearchbyIndex = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getOrderDataSearch(ByRef arrQueryString As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -591,10 +613,7 @@ Err:
         Parameter.Add("@live_update")
         Parameter.Add("@NOC")
         Parameter.Add("@coded")
-        Parameter.Add("@waiting_for_wholesalers")
-        Parameter.Add("@certificate_requested")
-        Parameter.Add("@certificate_done")
-        Parameter.Add("@portalupdatecheck")
+        Parameter.Add("@certificateRequested")
         Parameter.Add("@Cancelled")
         Parameter.Add("@PO_sent")
         Parameter.Add("@PO_received")
@@ -614,19 +633,14 @@ Err:
         Parameter.Add("@Tenant")
         Parameter.Add("@Priority")
         Parameter.Add("@Address")
-        Parameter.Add("@companynotes")
-        Parameter.Add("@personalnotes")
         Parameter.Add("@vo_details")
         Parameter.Add("@po_notes")
         Parameter.Add("@Status")
         Parameter.Add("@OrderRun_No")
-        Parameter.Add("@MaterialNotes")
         Parameter.Add("@contractEmail")
         Parameter.Add("@voNotAgreedDate")
         Parameter.Add("@calloutNumber")
         Parameter.Add("@CherryPickerCheck")
-        Parameter.Add("@SubTaskAssignment")
-        Parameter.Add("@WorksheetSentSub")
         Parameter.Add("@UserName")
 
 
@@ -641,7 +655,6 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
@@ -650,11 +663,6 @@ Err:
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -671,8 +679,7 @@ Err:
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
+
         Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
@@ -948,6 +955,40 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
+
+    Public Sub UpdateAttachmentMessage(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_orderAttachment_status]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@customerPictureEmailMessage")
+        Parameter.Add("@customerCertificateEmailMessage")
+        Parameter.Add("@customerPictureStatus")
+        Parameter.Add("@customerCertificateStatus")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
     Public Sub deleteOrderPicture(ByRef ID As Integer)
         On Error GoTo Err
 
@@ -1000,6 +1041,27 @@ Err:
         Dim Type As String = SqlDbType.Int
 
         getOrderPicture = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getOrderAttachmentMessage(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderAttachment_status_by_id]"
+
+        Dim Parameter As String = "@ID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getOrderAttachmentMessage = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function

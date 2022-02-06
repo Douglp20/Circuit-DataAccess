@@ -163,6 +163,30 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function getAppointmentEmailInfoByDate(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Appointment_get_appointment_email_info_by_date]"
+
+        Dim Parameter As String = "@date"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getAppointmentEmailInfoByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getAvailableSubContractorByDate(dte As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

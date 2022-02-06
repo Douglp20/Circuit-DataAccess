@@ -1,6 +1,6 @@
 ﻿Public Class StaffData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -50,12 +50,12 @@ Err:
 
 
         Dim sp As String = "[Staff_get_staff_by_search]"
-        Dim strParameter As String = "@search"
+        Dim Parameter As String = "@search"
         Dim strType As String = SqlDbType.VarChar
         Dim strQueryString As String = searchValue
 
 
-        getStaffbySearch = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getStaffbySearch = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
 
 
 
@@ -76,7 +76,7 @@ Err:
 
         Dim arrQueryString As New ArrayList
         Dim sp As String = "[insert_staff]"
-        Dim strParameterOutput As String = "@ID"
+        Dim ParameterOutput As String = "@ID"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
 
@@ -97,7 +97,7 @@ Err:
 
 
 
-        InsertStaffDetail = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, strParameterOutput, arrType, arrQueryString)
+        InsertStaffDetail = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, ParameterOutput, arrType, arrQueryString)
 
 
 
@@ -109,88 +109,91 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function UpdateStaffDetail(ByRef arrValuesPass As ArrayList)
+    Public Function UpdateStaffDetail(ByRef value As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String = "[update_staff]"
 
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
 
-        arrParameter.Add("@id")
-        arrParameter.Add("@Firstname")
-        arrParameter.Add("@Surname")
-        arrParameter.Add("@Trade")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@Vehicle_registration")
-        arrParameter.Add("@NI_no")
-        arrParameter.Add("@Tel_no")
-        arrParameter.Add("@Mobile")
-        arrParameter.Add("@UTR")
-        arrParameter.Add("@CIS")
-        arrParameter.Add("@email")
-        arrParameter.Add("@PAYE_start_date")
-        arrParameter.Add("@PAYE_end_date")
-        arrParameter.Add("@Post_code")
-        arrParameter.Add("@tester")
-        arrParameter.Add("@dob")
-        arrParameter.Add("@previous_employer")
-        arrParameter.Add("@next_of_kin")
-        arrParameter.Add("@next_of_kin_phone")
-        arrParameter.Add("@employee_type")
-        arrParameter.Add("@comp_reg_no")
-        arrParameter.Add("@comp_name")
-        arrParameter.Add("@tax_treatment")
-        arrParameter.Add("@vat_number")
-        arrParameter.Add("@disabled")
-        arrParameter.Add("@email_worksheets")
-        arrParameter.Add("@UserName")
-        arrParameter.Add("@Notes")
-        arrParameter.Add("@subContractor")
-        arrParameter.Add("@HourlyRate")
-        arrParameter.Add("@voidworker")
-        arrParameter.Add("@staffCheck")
+        Parameter.Add("@id")
+        Parameter.Add("@Firstname")
+        Parameter.Add("@Surname")
+        Parameter.Add("@Trade")
+        Parameter.Add("@Address")
+        Parameter.Add("@Vehicle_registration")
+        Parameter.Add("@NI_no")
+        Parameter.Add("@Tel_no")
+        Parameter.Add("@Mobile")
+        Parameter.Add("@UTR")
+        Parameter.Add("@CIS")
+        Parameter.Add("@email")
+        Parameter.Add("@PAYE_start_date")
+        Parameter.Add("@PAYE_end_date")
+        Parameter.Add("@Post_code")
+        Parameter.Add("@tester")
+        Parameter.Add("@dob")
+        Parameter.Add("@previous_employer")
+        Parameter.Add("@next_of_kin")
+        Parameter.Add("@next_of_kin_phone")
+        Parameter.Add("@employee_type")
+        Parameter.Add("@comp_reg_no")
+        Parameter.Add("@comp_name")
+        Parameter.Add("@tax_treatment")
+        Parameter.Add("@vat_number")
+        Parameter.Add("@disabled")
+        Parameter.Add("@email_worksheets")
+        Parameter.Add("@UserName")
+        Parameter.Add("@Notes")
+        Parameter.Add("@subContractor")
+        Parameter.Add("@HourlyRate")
+        Parameter.Add("@voidworker")
+        Parameter.Add("@staff")
+        Parameter.Add("@Administrator")
+        Parameter.Add("@CertificateEngineer")
 
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.DateTime)
-        arrType.Add(SqlDbType.DateTime)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.DateTime)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -281,12 +284,12 @@ Err:
 
 
         Dim sp As String = "[Staff_get_staff_by_id]"
-        Dim strParameter As String = "@id"
+        Dim Parameter As String = "@id"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id
 
 
-        getStaffbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getStaffbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
 
 
 
@@ -374,12 +377,12 @@ Err:
 
 
         Dim sp As String = "[StaffAbsence_get_AbsenceDate_by_AbsenceID]"
-        Dim strParameter As String = "@id"
+        Dim Parameter As String = "@id"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID
 
 
-        getStaffAbsenceDatebyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getStaffAbsenceDatebyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
 
 
 
@@ -395,12 +398,12 @@ Err:
 
 
         Dim sp As String = "[StaffAbsence_get_staff_workdays_By_StaffID]"
-        Dim strParameter As String = "@Staffid"
+        Dim Parameter As String = "@Staffid"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = ID
 
 
-        getStaffDaysOfWeek = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getStaffDaysOfWeek = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
 
 
 
@@ -420,7 +423,7 @@ Err:
 
         Dim arrQueryString As New ArrayList
         Dim sp As String = "[insert_staff_absence]"
-        Dim strParameterOutput As String = "@ID"
+        Dim ParameterOutput As String = "@ID"
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
 
@@ -444,7 +447,7 @@ Err:
 
 
 
-        InsertStaffAbsence = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, strParameterOutput, arrType, arrQueryString)
+        InsertStaffAbsence = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, ParameterOutput, arrType, arrQueryString)
 
 
 
@@ -532,11 +535,32 @@ Err:
         Dim sp As String = "[delete_staff_absenceDate]"
 
 
-        Dim strParameter As String = "@staffabsenceID"
+        Dim Parameter As String = "@staffabsenceID"
         Dim strType As String = SqlDbType.Int
 
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, queryString)
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, strType, queryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
+
+#Region "UserLogin"
+    Public Function getAllUserPermission() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[UserLogin_get_all_user_permission]"
+
+
+        getAllUserPermission = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
 
 
         Exit Function

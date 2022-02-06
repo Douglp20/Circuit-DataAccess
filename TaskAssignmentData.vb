@@ -34,7 +34,42 @@ Err:
 #End Region
 
 #Region "Get  Data"
+    Public Function getTaskInfo(Value As Integer) As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_certificate_assignment_by_OrderID]"
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
+
+        getTaskInfo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+    Public Function getTaskAdminCertificateEngineer() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Task_get_admin_certificateEngineer]"
+
+
+        getTaskAdminCertificateEngineer = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 
     Public Function getAllTaskAssignment(value As Integer) As SqlClient.SqlDataAdapter
 
@@ -137,53 +172,53 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 #End Region
-#Region "Mail"
-    Public Function GetMailTaskAssignment(Value As Integer) As SqlClient.SqlDataAdapter
-        On Error GoTo Err
+    '#Region "Mail"
+    '    Public Function GetMailTaskAssignment(Value As Integer) As SqlClient.SqlDataAdapter
+    '        On Error GoTo Err
 
 
-        Dim sp As String = "[task_get_mail_sub_taskAssignment]"
-        Dim Parameter As String = "@OrderID"
-        Dim Type As String = SqlDbType.Int
+    '        Dim sp As String = "[task_get_mail_sub_taskAssignment]"
+    '        Dim Parameter As String = "@OrderID"
+    '        Dim Type As String = SqlDbType.Int
 
-        GetMailTaskAssignment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Function
-    Public Sub UpdateMailTaskAssignment(value As ArrayList)
-        On Error GoTo Err
+    '        GetMailTaskAssignment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
 
 
-        Dim sp As String = "[update_task_mail_sub_taskAssignment]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-        Parameter.Add("@OrderID")
-        Parameter.Add("@subject")
+    '        Exit Function
 
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
+    'Err:
+    '        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+    '        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    '    End Function
+    '    Public Sub UpdateMailTaskAssignment(value As ArrayList)
+    '        On Error GoTo Err
 
 
+    '        Dim sp As String = "[update_task_mail_sub_taskAssignment]"
+    '        Dim Parameter As New ArrayList
+    '        Dim Type As New ArrayList
+    '        Parameter.Add("@OrderID")
+    '        Parameter.Add("@subject")
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
+    '        Type.Add(SqlDbType.Int)
+    '        Type.Add(SqlDbType.VarChar)
 
 
 
+    '        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
 
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
-    End Sub
-#End Region
+
+
+    'Err:
+    '        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+    '        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    '    End Sub
+    '#End Region
 #Region "Save "
-    Public Sub InsertTaskAssignment(ByRef arrValue As ArrayList)
+    Public Sub InsertTaskAssignment(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
@@ -193,32 +228,34 @@ Err:
         Dim sp As String = "[insert_taskAssignment]"
 
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
-        arrParameter.Add("@subject")
-        arrParameter.Add("@task")
-        arrParameter.Add("@startDate")
-        arrParameter.Add("@assignedToStaffID")
-        arrParameter.Add("@priority")
-        arrParameter.Add("@active")
-        arrParameter.Add("@status")
-        arrParameter.Add("@OrderID")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@subject")
+        Parameter.Add("@task")
+        Parameter.Add("@startDate")
+        Parameter.Add("@assignedToStaffID")
+        Parameter.Add("@priority")
+        Parameter.Add("@active")
+        Parameter.Add("@taskType")
+        Parameter.Add("@status")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Date)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Sub
@@ -232,7 +269,7 @@ Err:
 
 
     End Sub
-    Public Sub UpdateTaskAssignment(ByRef arrValue As ArrayList)
+    Public Sub UpdateTaskAssignment(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
@@ -242,31 +279,33 @@ Err:
         Dim sp As String = "[update_taskAssignment]"
 
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
-        arrParameter.Add("@ID")
-        arrParameter.Add("@subject")
-        arrParameter.Add("@task")
-        arrParameter.Add("@startDate")
-        arrParameter.Add("@assignedToStaffID")
-        arrParameter.Add("@priority")
-        arrParameter.Add("@active")
-        arrParameter.Add("@status")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@ID")
+        Parameter.Add("@subject")
+        Parameter.Add("@task")
+        Parameter.Add("@startDate")
+        Parameter.Add("@assignedToStaffID")
+        Parameter.Add("@priority")
+        Parameter.Add("@active")
+        Parameter.Add("@status")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Date)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Sub
