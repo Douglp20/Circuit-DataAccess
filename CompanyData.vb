@@ -50,14 +50,17 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 
-    Public Function getAllCompanyList() As SqlClient.SqlDataAdapter
+    Public Function getAllCompanyList(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Company_get_all_company_list]"
 
-        getAllCompanyList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+        Dim Parameter As String = "@index"
+        Dim Type As String = SqlDbType.Int
 
+
+        getAllCompanyList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
         Exit Function
 
@@ -80,18 +83,18 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getCompanybyID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanybyID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
         Dim sp As String = "[Company_get_company_by_id]"
-        Dim strParameter As String = "@id"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim Parameter As String = "@id"
+        Dim Type As String = SqlDbType.Int
 
 
-        getCompanybyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+        getCompanybyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

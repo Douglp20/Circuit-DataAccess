@@ -33,7 +33,7 @@ Err:
     End Function
 #End Region
 #Region "Save Data"
-    Public Function SaveSettings(ByRef arrValues As ArrayList)
+    Public Sub SaveSettings(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
 
@@ -60,8 +60,8 @@ Err:
         Parameter.Add("@vatReverse")
         Parameter.Add("@CustomerEmail")
         Parameter.Add("@WholesalerEmail")
+        Parameter.Add("@emailServiceRunning")
 
-
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -75,6 +75,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
@@ -83,12 +84,12 @@ Err:
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 
 
-        Exit Function
+        Exit Sub
 
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Function
+    End Sub
 #End Region
 
 

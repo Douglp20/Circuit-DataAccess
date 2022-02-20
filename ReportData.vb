@@ -102,23 +102,23 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getCompanyInvoiceStatement(value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanyInvoiceStatement(value As ArrayList) As SqlClient.SqlDataAdapter
 
 
         On Error GoTo Err
 
 
         Dim sp As String = "[REPORT_company_invoice_statement]"
-        Dim Parameter As String = "@companyID"
-        Dim Type As String = SqlDbType.Int
 
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Parameter.Add("@companyID")
+        Parameter.Add("Index")
 
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
 
-
-
-
-
-        getCompanyInvoiceStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        getCompanyInvoiceStatement = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

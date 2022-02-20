@@ -971,6 +971,8 @@ Err:
         Parameter.Add("@customerCertificateStatus")
         Parameter.Add("@UserName")
 
+
+
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)

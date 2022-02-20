@@ -202,6 +202,58 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function UpdateStaffUserInfo(ByRef value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_staff_user_info]"
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@Firstname")
+        Parameter.Add("@Surname")
+        Parameter.Add("@Address")
+        Parameter.Add("@Tel_no")
+        Parameter.Add("@Mobile")
+        Parameter.Add("@email")
+        Parameter.Add("@Post_code")
+        Parameter.Add("@previous_employer")
+        Parameter.Add("@next_of_kin")
+        Parameter.Add("@next_of_kin_phone")
+        Parameter.Add("@comp_name")
+        Parameter.Add("@dob")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function check_for_duplicate_before_update(ByRef arrValue As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -290,6 +342,27 @@ Err:
 
 
         getStaffbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getStaffUserInfoByLoginID(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_staff_user_info_by_LoginID]"
+        Dim Parameter As String = "@LoginId"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getStaffUserInfoByLoginID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
