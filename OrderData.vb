@@ -12,6 +12,24 @@
 #End Region
 
 #Region "Get Order list Data"
+    Public Function getOrderCertEngineer() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_certificateEngineer]"
+
+
+        getOrderCertEngineer = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getOrderSearchSubContractor() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -610,8 +628,6 @@ Err:
         Parameter.Add("@companyID")
         Parameter.Add("@job_type_id")
         Parameter.Add("@project_type_id")
-        Parameter.Add("@live_update")
-        Parameter.Add("@NOC")
         Parameter.Add("@coded")
         Parameter.Add("@certificateRequested")
         Parameter.Add("@Cancelled")
@@ -647,8 +663,6 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
@@ -777,6 +791,27 @@ Err:
         Dim strQueryString As String = id
 
         getOrderSubContractorByOrder = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getOrderAlreadyAssignedSubContractorByOrder(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Order_get_already_assigned_subcontractor_by_OrderID]"
+        Dim strParameter As String = "@OrderID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+        getOrderAlreadyAssignedSubContractorByOrder = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, strQueryString)
 
 
         Exit Function

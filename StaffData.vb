@@ -42,6 +42,22 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function zzzgetStaffEmployeePricework() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Staff_get_employee_pricework]"
+
+        zzzgetStaffEmployeePricework = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 
 
     Public Function getStaffbySearch(searchValue As String) As SqlClient.SqlDataAdapter

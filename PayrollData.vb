@@ -15,15 +15,36 @@ Public Class PayrollData
 
 
 #Region "Get Data Payroll"
-    Public Function getPayrollYearMonth() As SqlClient.SqlDataAdapter
+    Public Function getPayrollYear() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[Payroll_get_payroll_year_month]"
+        Dim sp As String = "[Payroll_get_payroll_year]"
 
 
-        getPayrollYearMonth = ViperCon.getSqlDataAdapter(connection.ConnectionString(), sp)
+        getPayrollYear = ViperCon.getSqlDataAdapter(connection.ConnectionString(), sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getPayrollYearMonth(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Payroll_get_payroll_month_by_year]"
+
+        Dim Parameter As String = "@year"
+        Dim Type As String = SqlDbType.VarChar
+
+        getPayrollYearMonth = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
 
 
         Exit Function
@@ -63,18 +84,17 @@ Err:
 
 
     End Function
-    Public Function getPayrollByID(ByRef ID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getPayrollByID(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
         Dim sp As String = "[Payroll_get_payroll_by_ID]"
 
-        Dim QueryString As String = ID
-        Dim strParameter As String = "@ID"
-        Dim strType As String = SqlDbType.Int
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
 
-        getPayrollByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, QueryString)
+        getPayrollByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
 
 
         Exit Function
@@ -370,6 +390,8 @@ Err:
         arrParameter.Add("@NI")
         arrParameter.Add("@BACS_Outstanding")
         arrParameter.Add("@BACS_Paid")
+        arrParameter.Add("@deduction")
+        arrParameter.Add("@addition")
         arrParameter.Add("@UserName")
 
 
@@ -378,6 +400,8 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.SmallMoney)
+        arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)

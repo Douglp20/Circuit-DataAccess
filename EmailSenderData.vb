@@ -62,19 +62,19 @@ Err:
 
 #Region "Order Picture Certificate"
 
-    Public Function getOrderEmailPictureCertificateInfoID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderEmailCustomerInfoID(id As Integer) As SqlClient.SqlDataAdapter
 
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[EMAIL_order_email_picture_certificate_info_by_id]"
+        Dim sp As String = "[EMAIL_order_email_customer_info_by_id]"
         Dim strParameter As String = "@id"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id
 
 
-        getOrderEmailPictureCertificateInfoID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderEmailCustomerInfoID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -87,6 +87,28 @@ Err:
 #End Region
 #Region "Order Picture"
 
+    Public Function getOrderNotes(id As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_order_picture_notes_by_id]"
+        Dim strParameter As String = "@OrderID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getOrderNotes = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getPicturebyOrderID(id As Integer) As SqlClient.SqlDataAdapter
 
 
@@ -222,6 +244,27 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
+#End Region
+#Region "Timesheet"
+    Public Function TimesheetRejectionEmail(value As Integer) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_get_timesheet_by_id]"
+
+
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+        TimesheetRejectionEmail = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 #End Region
 #Region "Settings"
 

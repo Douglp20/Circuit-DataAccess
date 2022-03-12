@@ -207,16 +207,16 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getAvailableSubContractorNotOnLeave(dte As String) As SqlClient.SqlDataAdapter
+    Public Function getAvailableEmployee(dte As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[Appointment_get_subContractor_not_on_leave]"
+        Dim sp As String = "[STAFF_get_available_employee]"
         Dim strParameter As String = "@Date"
         Dim strType As String = SqlDbType.Char
 
-        getAvailableSubContractorNotOnLeave = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
+        getAvailableEmployee = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
 
         Exit Function
 

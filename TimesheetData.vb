@@ -14,6 +14,8 @@
     End Sub
 #End Region
 
+#Region "User Timesheet"
+
 
     Public Function getTimesheetbyID(value As ArrayList) As SqlClient.SqlDataAdapter
 
@@ -84,4 +86,56 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Sub
+#End Region
+#Region "Approval Timesheet"
+    Public Function getReleasedTimesheet(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[STAFF_timesheet_get_released_timesheet]"
+        Dim Parameter As String = "@year"
+        Dim type As String = SqlDbType.VarChar
+
+        getReleasedTimesheet = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
+#Region "Approval-Reject Timesheet"
+    Public Sub ApprovalRejectTimesheet(value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_staff_timesheet]"
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Parameter.Add("@ID")
+        Parameter.Add("@reject")
+        Parameter.Add("@approve")
+        Parameter.Add("@userName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
 End Class
