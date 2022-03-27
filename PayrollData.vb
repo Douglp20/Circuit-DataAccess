@@ -132,7 +132,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Payroll_get_staff_payroll]"
+        Dim sp As String = "[Payroll_get_open_payroll_staff]"
 
 
         getPayrollStaff = ViperCon.getSqlDataAdapter(connection.ConnectionString(), sp)
@@ -149,7 +149,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Staff_get_all_staff_list]"
+        Dim sp As String = "[Payroll_get_all_staff]"
 
         getAllStaffList = ViperCon.getSqlDataAdapter(connection.ConnectionString(), sp)
 

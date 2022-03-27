@@ -204,7 +204,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[EMAIL_order_get_worksheet_subContractor]"
+        Dim sp As String = "[EMAIL_order_get_worksheet_subContractor_by_Orderid]"
         Dim Parameter As String = "@OrderID"
         Dim Type As String = SqlDbType.Int
 
@@ -219,29 +219,25 @@ Err:
 
     End Function
 
-    Public Sub UpdateMailOrderWorkSheet(value As ArrayList)
+
+
+
+    Public Sub UpdateMailOrderWorkSheet(value As Integer)
         On Error GoTo Err
 
 
         Dim sp As String = "[update_email_order_worksheet_subContractor]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-        Parameter.Add("@OrderID")
-        Parameter.Add("@subject")
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
 
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
 
 
 
 
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+        If Err.Number > 0 Then RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
 #End Region

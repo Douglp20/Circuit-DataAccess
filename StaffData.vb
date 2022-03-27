@@ -346,18 +346,40 @@ Err:
     End Sub
 #End Region
 #Region "Staff Load Data"
-    Public Function getStaffbyID(id As Integer) As SqlClient.SqlDataAdapter
+
+    Public Function getStaffbyID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
         Dim sp As String = "[Staff_get_staff_by_id]"
         Dim Parameter As String = "@id"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim Type As String = SqlDbType.Int
 
 
-        getStaffbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
+
+        getStaffbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getPayrollBACSHistorybyStaffID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Payroll_get_BACS_history_by_StaffID]"
+        Dim Parameter As String = "@StaffID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getPayrollBACSHistorybyStaffID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
