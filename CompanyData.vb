@@ -49,6 +49,27 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getCompanyByOrderStatus(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Company_get_company_by_Order_Status]"
+
+        Dim Parameter As String = "@status"
+        Dim Type As String = SqlDbType.VarChar
+
+
+        getCompanyByOrderStatus = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+
+
 
     Public Function getAllCompanyList(value As Integer) As SqlClient.SqlDataAdapter
 

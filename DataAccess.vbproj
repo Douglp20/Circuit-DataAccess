@@ -118,6 +118,7 @@
     <Compile Include="PayrollData.vb" />
     <Compile Include="ProcessLogData.vb" />
     <Compile Include="ReportData.vb" />
+    <Compile Include="ServicesData.vb" />
     <Compile Include="SettingsData.vb" />
     <Compile Include="StaffData.vb" />
     <Compile Include="TaskAssignmentData.vb" />

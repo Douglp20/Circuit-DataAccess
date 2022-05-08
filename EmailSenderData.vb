@@ -17,7 +17,7 @@
         On Error GoTo Err
 
 
-        Dim sp As String = "[EMAIL_order_get_wholesaler]"
+        Dim sp As String = "[EMAIL_order_get_wholesaler_by_id]"
 
 
         Dim Parameter As String = "@MatID"
@@ -226,7 +226,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_email_order_worksheet_subContractor]"
+        Dim sp As String = "[update_Service_email_order_worksheet_subContractor]"
         Dim Parameter As String = "@OrderID"
         Dim Type As String = SqlDbType.Int
 
@@ -240,6 +240,44 @@ Err:
         If Err.Number > 0 Then RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
+#End Region
+#Region "Customer Statement"
+    Public Function GetCustomerInvoiceStatement(Value As Integer) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_company_invoice_statement_by_companyID]"
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+        GetCustomerInvoiceStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function CustomerAppointmentStatement(Value As Integer) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_company_appointment_Statement_by_companyID]"
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+        CustomerAppointmentStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 #End Region
 #Region "Timesheet"
     Public Function TimesheetRejectionEmail(value As Integer) As SqlClient.SqlDataAdapter

@@ -30,6 +30,25 @@ Err:
 
 
     End Function
+    Public Function getOrderLinkList(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_link_order_by_ID]"
+        Dim parameter As String = "@OrderID"
+        Dim type As String = SqlDbType.Int
+
+        getOrderLinkList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, parameter, type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getOrderSearchSubContractor() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -544,80 +563,37 @@ Err:
 
     End Function
 #End Region
-#Region "Save Order Callout"
-    Public Function InsertOrderCallout(ByRef arrValue As ArrayList) As Integer
+#Region "Save Order Link"
+    Public Sub UpdateOrderLink(ByRef Value As ArrayList)
         On Error GoTo Err
 
-        Dim arrQueryString As New ArrayList
-        Dim sp As String = "[insert_order_callout]"
+        Dim sp As String = "[UPDATE_link_order_managed_data]"
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-
-
-        arrParameter.Add("@CompanyID")
-        arrParameter.Add("@calloutNumber")
-        arrParameter.Add("@OrderNumber")
-        arrParameter.Add("@RefNumber")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@Postcode")
-        arrParameter.Add("@UserName")
-
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
-        Exit Function
+        Parameter.Add("@ParentID")
+        Parameter.Add("@ChildID")
+        Parameter.Add("@Index")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
 
 Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
-    End Function
-    Public Function UpdateOrderCallout(ByRef arrValue As ArrayList) As Integer
-        On Error GoTo Err
+    End Sub
 
-        Dim arrQueryString As New ArrayList
-        Dim sp As String = "[Update_order_callout]"
-
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-
-        arrParameter.Add("@ID")
-        arrParameter.Add("@CompanyID")
-        arrParameter.Add("@calloutNumber")
-        arrParameter.Add("@OrderNumber")
-        arrParameter.Add("@RefNumber")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@Postcode")
-        arrParameter.Add("@UserName")
-
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Function
 #End Region
 #Region "Save Data"
 
@@ -958,5 +934,40 @@ Err:
 
 #End Region
 
+#Region "Get Orderlink data"
 
+    Public Function getOrderLinkManageData(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_link_order_managed_data]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Search")
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@index")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+
+
+        getOrderLinkManageData = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+#End Region
 End Class

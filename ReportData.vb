@@ -128,6 +128,29 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getCompanyAppointmentStatement(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_get_company_appointment]"
+
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getCompanyAppointmentStatement = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getCompanyInvoiceBatchStatement(value As Integer) As SqlClient.SqlDataAdapter
 
 
@@ -226,7 +249,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[REPORT_get_appointment_by_date]"
+        Dim sp As String = "[REPORT_get_diary_appointment_by_date]"
         Dim strParameter As String = "@date"
         Dim strType As String = SqlDbType.VarChar
         Dim strQueryString As String = appDate
