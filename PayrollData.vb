@@ -392,6 +392,7 @@ Err:
         arrParameter.Add("@BACS_Paid")
         arrParameter.Add("@deduction")
         arrParameter.Add("@addition")
+        arrParameter.Add("@closed")
         arrParameter.Add("@UserName")
 
 
@@ -414,6 +415,7 @@ Err:
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
+        arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrValues)

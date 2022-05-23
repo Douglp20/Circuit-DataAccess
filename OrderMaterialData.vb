@@ -36,6 +36,28 @@ Err:
 
 
     End Function
+
+    Public Function getOrderMaterialItemByID(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_Order_material_item_by_materialID]"
+        Dim Parameter As String = "@materialID"
+        Dim Type As String = SqlDbType.Int
+        Dim QueryString As String = id
+
+
+        getOrderMaterialItemByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, QueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getWholesalerCityByID(id As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -189,11 +211,9 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[update_Order_Material]"
+        Dim sp As String = "[Update_Order_material_item]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
-
-
 
         Parameter.Add("@id")
         Parameter.Add("@OrderID")
@@ -227,6 +247,38 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateMaterialItem(ByRef arrValues As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_Order_Material_item]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@MaterialID")
+        Parameter.Add("@Item")
+        Parameter.Add("@Qty")
+        Parameter.Add("@Delete")
+        Parameter.Add("@UserLogin")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
 
 
