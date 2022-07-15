@@ -523,46 +523,6 @@ Err:
     End Function
 #End Region
 
-#Region "Get Order Callout Data"
-    Public Function getAllOrderCallout() As SqlClient.SqlDataAdapter
-
-        On Error GoTo Err
-
-        Dim sp As String = "[Order_get_all_orderCallout]"
-
-
-
-        getAllOrderCallout = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-
-    End Function
-    Public Function getOrderCalloutDataByOrderID(id As Integer) As SqlClient.SqlDataAdapter
-
-        On Error GoTo Err
-
-        Dim sp As String = "[Order_get_orderCallout_by_ID]"
-        Dim strParameter As String ="@id"
-        Dim strType As String = SqlDbType.Int
-
-        getOrderCalloutDataByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, id)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-
-    End Function
-#End Region
 #Region "Save Order Link"
     Public Sub UpdateOrderLink(ByRef Value As ArrayList)
         On Error GoTo Err

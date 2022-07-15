@@ -117,6 +117,7 @@
     <Compile Include="OrderNoAccessData.vb" />
     <Compile Include="PayrollData.vb" />
     <Compile Include="ProcessLogData.vb" />
+    <Compile Include="RBACData.vb" />
     <Compile Include="ReportData.vb" />
     <Compile Include="ServicesData.vb" />
     <Compile Include="SettingsData.vb" />

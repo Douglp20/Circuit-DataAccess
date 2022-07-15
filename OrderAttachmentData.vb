@@ -11,7 +11,7 @@
     End Sub
 #End Region
 #Region "Picture"
-    Public Sub insertOrderPicture(ByRef Value As ArrayList, ImageData As Byte())
+    Public Sub insertOrderImage(ByRef Value As ArrayList, ImageData As Byte())
         On Error GoTo Err
 
 
@@ -47,7 +47,7 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
-    Public Sub UpdateOrderPicture(ByRef Value As ArrayList)
+    Public Sub UpdateOrderImage(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
@@ -84,7 +84,7 @@ Err:
 
     End Sub
 
-    Public Sub UpdateAttachmentMessage(ByRef Value As ArrayList)
+    Public Sub zzzUpdateAttachmentMessage(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
@@ -104,6 +104,68 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+    Public Sub UpdateOrderPicture(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_picture]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@customerPictureEmailMessage")
+        Parameter.Add("@customerCertificateStatus")
+        Parameter.Add("@UserName")
+
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+    Public Sub UpdateOrderCertificate(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_cerificate]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@customerCertificateEmailMessage")
+        Parameter.Add("@customerCertificateStatus")
+        Parameter.Add("@UserName")
+
+
+
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -141,16 +203,23 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
-    Public Sub deleteAllOrderPicture(ByRef ID As Integer)
+    Public Sub deleteAllOrderPicture(ByRef value As ArrayList)
         On Error GoTo Err
 
 
         Dim sp As String = "[delete_all_orderPicture]"
-        Dim strParameter As String = "@OrderID"
-        Dim strType As String = SqlDbType.Int
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@type")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, ID)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
 
 
         Exit Sub

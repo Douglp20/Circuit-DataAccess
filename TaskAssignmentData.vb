@@ -1,6 +1,6 @@
 ﻿Public Class TaskAssignmentData
     Public Event ErrorMessage(ByVal errDesc As String, ByVal errNo As Integer, ByVal errTrace As String)
-    Private WithEvents ViperCon As New douglas.Viper.Connection.Connection()
+    Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
     Public Sub New()
     End Sub
@@ -54,14 +54,17 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 
-    Public Function getTaskAdminCertificateEngineer() As SqlClient.SqlDataAdapter
+    Public Function getTaskAdminSubContractor(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Task_get_admin_certificateEngineer]"
+        Dim sp As String = "[Task_get_assignee_order_certificate]"
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
 
 
-        getTaskAdminCertificateEngineer = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+        getTaskAdminSubContractor = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -136,17 +139,17 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getTastAssignmentByID(ID As String) As SqlClient.SqlDataAdapter
+    Public Function getTastAssignmentByID(value As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Task_get_taskAssignment_by_ID]"
-        Dim strParameter As String = "@ID"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = ID
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
 
 
-        getTastAssignmentByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+        getTastAssignmentByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

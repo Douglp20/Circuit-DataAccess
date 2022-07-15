@@ -64,9 +64,61 @@ Err:
 
 
     End Function
+
+    Public Function getRBACUserRoleUserID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[RBAC_role_by_UserID]"
+        Dim Parameter As String = "@UserID"
+        Dim Type As String = SqlDbType.Char
+
+
+        getRBACUserRoleUserID = ViperCon.getSqlDataAdapterWithParameter(Connection.getConnection, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
 #End Region
 #Region "Save Data"
+    Public Function UpdateRBACUserRole(ByRef Values As ArrayList)
 
+        On Error GoTo Err
+
+
+
+
+        Dim sp As String = "[Update_RBAC_user_role]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@RoleID")
+        Parameter.Add("@UserID")
+        Parameter.Add("@Checked")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+
+
+        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function SaveUserLoginPassword(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
