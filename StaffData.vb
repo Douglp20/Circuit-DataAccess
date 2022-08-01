@@ -661,24 +661,5 @@ Err:
     End Function
 #End Region
 
-#Region "UserLogin"
-    Public Function getAllUserPermission() As SqlClient.SqlDataAdapter
 
-        On Error GoTo Err
-
-
-        Dim sp As String = "[UserLogin_get_all_user_permission]"
-
-
-        getAllUserPermission = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
-
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Function
-#End Region
 End Class

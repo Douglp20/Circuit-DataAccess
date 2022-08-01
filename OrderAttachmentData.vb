@@ -15,7 +15,7 @@
         On Error GoTo Err
 
 
-        Dim sp As String = "[insert_orderPicture]"
+        Dim sp As String = "[insert_order_image]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
         Dim pictureParameter As String = "@photo"
@@ -51,7 +51,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_orderPicture]"
+        Dim sp As String = "[update_order_image]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
@@ -129,7 +129,7 @@ Err:
 
         Parameter.Add("@ID")
         Parameter.Add("@customerPictureEmailMessage")
-        Parameter.Add("@customerCertificateStatus")
+        Parameter.Add("@customerPictureStatus")
         Parameter.Add("@UserName")
 
 

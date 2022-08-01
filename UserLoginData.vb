@@ -39,6 +39,26 @@ Err:
 
 
     End Function
+    Public Function getForgotPasswordEmail(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[UserLogin_get_forgot_password_email]"
+        Dim Parameter As String = "@value"
+        Dim Type As String = SqlDbType.Char
+
+        getForgotPasswordEmail = ViperCon.getSqlDataAdapterWithParameter(Connection.getConnection, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
 #End Region
 
 #Region "Security Permission "

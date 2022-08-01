@@ -211,7 +211,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Update_Order_material_item]"
+        Dim sp As String = "[update_Order_Material]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 

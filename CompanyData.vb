@@ -13,7 +13,49 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+#Region "Get Company email Data"
 
+    Public Function getCompanyEmailPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[company_get_company_email_picture_by_ID]"
+
+        Dim Parameter As String = "@CompanyEmailID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getCompanyEmailPicture = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
+    Public Function getAllCompanyEmail() As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        On Error GoTo Err
+
+        Dim sp As String = "[company_get_company_email]"
+
+        getAllCompanyEmail = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+#End Region
 
 #Region "Get Company Data"
     Public Function getAllCompanyDropdownlist(value As Integer) As SqlClient.SqlDataAdapter
@@ -89,14 +131,15 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getAllSubCompanyList() As SqlClient.SqlDataAdapter
+    Public Function getAllCompany() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Company_get_all_Subcompany_list]"
+        Dim sp As String = "[Company_get_all_company]"
 
-        getAllSubCompanyList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
+
+        getAllCompany = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
         Exit Function
 
@@ -104,6 +147,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+
     Public Function getCompanybyID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -356,8 +400,6 @@ Err:
         arrParameter.Add("@Postcode")
         arrParameter.Add("@worksheetnotes")
         arrParameter.Add("@notes")
-        arrParameter.Add("@companyType")
-        arrParameter.Add("@reportToID")
         arrParameter.Add("@invoice_materials_percent")
         arrParameter.Add("@voids_nonvoids_reports")
         arrParameter.Add("@retention_req")
@@ -365,7 +407,7 @@ Err:
         arrParameter.Add("@daily_appointment_reports")
         arrParameter.Add("@disabled")
         arrParameter.Add("@monthly_valuation_report")
-        arrParameter.Add("@SageACRef")
+        arrParameter.Add("@ServiceEmail")
         arrParameter.Add("@vat_charge")
         arrParameter.Add("@portal_update")
         arrParameter.Add("@batch_invoice")
@@ -378,8 +420,6 @@ Err:
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.Bit)
         arrType.Add(SqlDbType.Bit)

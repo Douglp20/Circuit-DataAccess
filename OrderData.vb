@@ -281,24 +281,24 @@ Err:
 
 
     End Function
-    Public Function getOrderSaveForLater(ByRef arrQueryString As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getOrderSaveForLater(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Order_get_order_saveforlater_by_loginID]"
 
-        Dim arrParameter As New ArrayList
-        arrParameter.Add("@admin")
-        arrParameter.Add("@UserName")
+        Dim Parameter As New ArrayList
+        Parameter.Add("@admin")
+        Parameter.Add("@UserName")
 
 
 
 
-        Dim arrType As New ArrayList
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
-        getOrderSaveForLater = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrQueryString)
+        getOrderSaveForLater = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -557,32 +557,32 @@ Err:
 #End Region
 #Region "Save Data"
 
-    Public Function InsertOrders(ByRef arrValue As ArrayList) As Integer
+    Public Function InsertOrders(ByRef Value As ArrayList) As Integer
         On Error GoTo Err
 
         Dim arrQueryString As New ArrayList
         Dim sp As String = "[insert_orders]"
-        Dim strParameterOutput As String = "@ID"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim ParameterOutput As String = "@ID"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
-        arrParameter.Add("@CompanyID")
-        arrParameter.Add("@OrderNo")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@Postcode")
-        arrParameter.Add("@CalloutNo")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@OrderNo")
+        Parameter.Add("@Address")
+        Parameter.Add("@Postcode")
+        Parameter.Add("@CalloutNo")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
 
-        InsertOrders = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, strParameterOutput, arrType, arrValue)
-
+        InsertOrders = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, Parameter, ParameterOutput, Type, Value)
+        Return InsertOrders
 
         Exit Function
 

@@ -198,9 +198,6 @@ Err:
 
         getAvailableSubContractorByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
 
-
-
-
         Exit Function
 
 Err:
