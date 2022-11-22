@@ -79,6 +79,28 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getOrderDataQuickSearchbyIndex(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Order_get_dashboard_search_by_index]"
+        Dim Parameter As String = "@Index"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getOrderDataQuickSearchbyIndex = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 #End Region
     Public Function getInvoiceSheetbyInvoiceID(id As Integer) As SqlClient.SqlDataAdapter
 

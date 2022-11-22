@@ -144,7 +144,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Order_get_quick_search_by_index]"
+        Dim sp As String = "[Order_get_dashboard_search_by_index]"
         Dim Parameter As String = "@Index"
         Dim Type As String = SqlDbType.Int
 
@@ -311,6 +311,45 @@ Err:
     End Function
 #End Region
 #Region "Get Order Data"
+    Public Function getApppointmentTimeList() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_appointmentTimes_list]"
+
+
+
+        getApppointmentTimeList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getAllApppointmentTimeList() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_all_appointmentTimes_list]"
+
+
+
+        getAllApppointmentTimeList = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
     Public Function getOrderStatusByOrderID(ByRef OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -605,6 +644,7 @@ Err:
         Parameter.Add("@companyID")
         Parameter.Add("@job_type_id")
         Parameter.Add("@project_type_id")
+        Parameter.Add("@AppointmentTimeID")
         Parameter.Add("@coded")
         Parameter.Add("@certificateRequested")
         Parameter.Add("@Cancelled")
@@ -614,7 +654,6 @@ Err:
         Parameter.Add("@Completed_date")
         Parameter.Add("@vo_sent")
         Parameter.Add("@vo_agreed")
-        Parameter.Add("@Appointment_date")
         Parameter.Add("@cancelled_date")
         Parameter.Add("@Start_time")
         Parameter.Add("@End_time")
@@ -634,44 +673,47 @@ Err:
         Parameter.Add("@voNotAgreedDate")
         Parameter.Add("@calloutNumber")
         Parameter.Add("@CherryPickerCheck")
+        Parameter.Add("@ClientJobNumber")
         Parameter.Add("@UserName")
 
 
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Bit)
 
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 

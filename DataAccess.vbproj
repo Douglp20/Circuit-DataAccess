@@ -91,6 +91,7 @@
     <Compile Include="InvoicePaymentData.vb" />
     <Compile Include="MailServiceData.vb" />
     <Compile Include="MaintenanceData.vb" />
+    <Compile Include="MaterialStockData.vb" />
     <Compile Include="modRegistry.vb" />
     <Compile Include="msgProcessLog.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

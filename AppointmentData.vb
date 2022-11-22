@@ -12,7 +12,65 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+#Region "JobOverView"
+    Public Function getJobOverViewByDate(selDate As String, staffID As Integer) As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Appointment_get_joboverview_by_date]"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@date")
+        Parameter.Add("@staffID")
+
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+
+        Dim arrQueryString As New ArrayList
+        arrQueryString.Add(selDate)
+        arrQueryString.Add(staffID)
+
+        getJobOverViewByDate = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, arrQueryString)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getJobOverViewSubcontractorByDate(selDate As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Appointment_get_joboverview_subcontractor_by_date]"
+        Dim strParameter As String = "@date"
+        Dim strType As String = SqlDbType.VarChar
+        Dim strQueryString As String = selDate
+
+
+        getJobOverViewSubcontractorByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, strQueryString)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+
+#End Region
 
 #Region "Get Data"
     Public Function getAppointmentSubContractorByDate(selDate As String) As SqlClient.SqlDataAdapter

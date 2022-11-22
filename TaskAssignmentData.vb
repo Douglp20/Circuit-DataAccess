@@ -119,7 +119,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getTastAssignmentCountByLoginID(loginID As String) As SqlClient.SqlDataAdapter
+    Public Function getTaskAssignmentCountByLoginID(loginID As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
@@ -129,7 +129,7 @@ Err:
         Dim strQueryString As String = loginID
 
 
-        getTastAssignmentCountByLoginID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getTaskAssignmentCountByLoginID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 
@@ -256,6 +256,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
+
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
