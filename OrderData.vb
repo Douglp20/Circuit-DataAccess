@@ -12,6 +12,26 @@
 #End Region
 
 #Region "Get Order list Data"
+    Public Function getCompanyInfo(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim SP As String = "[Order_get_order_company_info_company_by_id]"
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getCompanyInfo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, SP, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getOrderCertEngineer() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -48,6 +68,25 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
 
+    End Function
+    Public Function getOrderCompanyID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_company_id]"
+
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getOrderCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
     Public Function getOrderSearchSubContractor() As SqlClient.SqlDataAdapter
 
@@ -469,32 +508,32 @@ Err:
 
     End Function
 
-    Public Sub InsertNotes(ByRef arrValue As ArrayList)
+    Public Sub InsertNotes(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
         Dim sp As String = "[insert_Order_Notes]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
 
-        arrParameter.Add("@OrderID")
-        arrParameter.Add("@Notes")
-        arrParameter.Add("@AppointmentCheck")
-        arrParameter.Add("@WorksheetCheck")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Notes")
+        Parameter.Add("@AppointmentCheck")
+        Parameter.Add("@WorksheetCheck")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
-
-
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrValue)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, Value)
 
 
         Exit Sub
@@ -505,32 +544,34 @@ Err:
 
     End Sub
 
-    Public Function UpdateNotes(ByRef arrValues As ArrayList)
+    Public Function UpdateNotes(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String = "[update_Order_Notes]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
 
-        arrParameter.Add("@ID")
-        arrParameter.Add("@OrderID")
-        arrParameter.Add("@Notes")
-        arrParameter.Add("@AppointmentCheck")
-        arrParameter.Add("@WorksheetCheck")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@ID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Notes")
+        Parameter.Add("@SubContractorID")
+        Parameter.Add("@AppointmentCheck")
+        Parameter.Add("@WorksheetCheck")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrValues)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, Values)
 
 
         Exit Function
@@ -610,14 +651,19 @@ Err:
         Parameter.Add("@OrderNo")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
-        Parameter.Add("@CalloutNo")
+        Parameter.Add("@targetdate")
+        Parameter.Add("@jobtypeid")
+        Parameter.Add("@projectTypeID")
         Parameter.Add("@UserName")
+
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
 
         InsertOrders = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, Parameter, ParameterOutput, Type, Value)

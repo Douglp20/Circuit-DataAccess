@@ -140,31 +140,29 @@ Err:
         Dim rtn As String = "The error occur within the module " + ToString() + "."
         RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function SaveUserLoginPassword(ByRef arrValues As ArrayList)
+    Public Function SaveUserLoginPassword(ByRef Value As ArrayList)
 
         On Error GoTo Err
 
-       
-        Dim sp As String
-        Dim arrValuesPass As New ArrayList
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim sp As String
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
         sp = "[update_User_Password]"
 
-        arrParameter.Add("@UserName")
-        arrParameter.Add("@Password")
+        Parameter.Add("@UserName")
+        Parameter.Add("@Password")
 
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-
-        For i As Integer = 0 To arrValues.Count - 1
-            arrValuesPass.Add(arrValues(i))
-        Next
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+
+
+        ViperCon.ExecuteProcessWithParameters(Connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Function

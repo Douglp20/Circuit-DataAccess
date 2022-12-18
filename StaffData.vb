@@ -125,7 +125,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function UpdateStaffDetail(ByRef value As ArrayList)
+    Public Function UpdateStaffDetailTest(ByRef value As ArrayList)
 
         On Error GoTo Err
 
@@ -210,6 +210,99 @@ Err:
         Type.Add(SqlDbType.Bit)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateStaffDetail(ByRef value As ArrayList, ImageData As Byte())
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_staff]"
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Dim pictureParameter As String = "@photo"
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@Firstname")
+        Parameter.Add("@Surname")
+        Parameter.Add("@Trade")
+        Parameter.Add("@Address")
+        Parameter.Add("@Vehicle_registration")
+        Parameter.Add("@NI_no")
+        Parameter.Add("@Tel_no")
+        Parameter.Add("@Mobile")
+        Parameter.Add("@UTR")
+        Parameter.Add("@CIS")
+        Parameter.Add("@email")
+        Parameter.Add("@PAYE_start_date")
+        Parameter.Add("@PAYE_end_date")
+        Parameter.Add("@Post_code")
+        Parameter.Add("@tester")
+        Parameter.Add("@dob")
+        Parameter.Add("@previous_employer")
+        Parameter.Add("@next_of_kin")
+        Parameter.Add("@next_of_kin_phone")
+        Parameter.Add("@employee_type")
+        Parameter.Add("@comp_reg_no")
+        Parameter.Add("@comp_name")
+        Parameter.Add("@tax_treatment")
+        Parameter.Add("@vat_number")
+        Parameter.Add("@disabled")
+        Parameter.Add("@email_worksheets")
+        Parameter.Add("@UserName")
+        Parameter.Add("@Notes")
+        Parameter.Add("@subContractor")
+        Parameter.Add("@HourlyRate")
+        Parameter.Add("@voidworker")
+        Parameter.Add("@staff")
+        Parameter.Add("@Administrator")
+        Parameter.Add("@CertificateEngineer")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+
+        ViperCon.ExecuteProcessImageWithParameters(connection.ConnectionString, sp, Parameter, Type, value, ImageData, pictureParameter)
 
 
         Exit Function
