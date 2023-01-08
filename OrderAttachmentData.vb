@@ -130,6 +130,7 @@ Err:
         Parameter.Add("@ID")
         Parameter.Add("@customerPictureEmailMessage")
         Parameter.Add("@customerPictureStatus")
+        Parameter.Add("@customerPictureStatusID")
         Parameter.Add("@UserName")
 
 
@@ -137,6 +138,7 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -160,6 +162,7 @@ Err:
 
         Parameter.Add("@ID")
         Parameter.Add("@customerCertificateEmailMessage")
+        Parameter.Add("@customerCertificateStatusID")
         Parameter.Add("@customerCertificateStatus")
         Parameter.Add("@UserName")
 
@@ -167,9 +170,9 @@ Err:
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 

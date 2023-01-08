@@ -720,6 +720,7 @@ Err:
         Parameter.Add("@calloutNumber")
         Parameter.Add("@CherryPickerCheck")
         Parameter.Add("@ClientJobNumber")
+        Parameter.Add("@OrderNotes")
         Parameter.Add("@UserName")
 
 
@@ -759,7 +760,7 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-
+        Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 
