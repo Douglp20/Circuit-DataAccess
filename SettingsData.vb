@@ -61,6 +61,8 @@ Err:
         Parameter.Add("@CustomerEmail")
         Parameter.Add("@WholesalerEmail")
         Parameter.Add("@emailServiceRunning")
+        Parameter.Add("@emailHeader")
+
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
@@ -80,6 +82,7 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 

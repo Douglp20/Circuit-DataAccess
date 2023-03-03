@@ -84,26 +84,26 @@ Err:
 
     End Sub
 
-    Public Sub zzzUpdateAttachmentMessage(ByRef Value As ArrayList)
+    Public Sub SaveOrderQuotationTest(ByRef Value As ArrayList)
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_orderAttachment_status]"
+        Dim sp As String = "[Update_order_quotation_test]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
         Parameter.Add("@ID")
-        Parameter.Add("@customerPictureEmailMessage")
-        Parameter.Add("@customerCertificateEmailMessage")
-        Parameter.Add("@customerPictureStatus")
-        Parameter.Add("@customerCertificateStatus")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Description")
+        Parameter.Add("@qty")
+        Parameter.Add("@location")
+        Parameter.Add("@reason")
         Parameter.Add("@UserName")
 
-
-
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -253,6 +253,69 @@ Err:
 
 
     End Function
+    Public Function getInvoiceAttachment(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Invoice_get_invoice_attachment_by_ID]"
+
+        Dim Parameter As String = "@InvoiceID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getInvoiceAttachment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getOrderQuotationPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderQuotationPicture_by_ID]"
+
+        Dim Parameter As String = "@OrderID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getOrderQuotationPicture = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getOrderQuotationTestByID(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_quotation_test_by_ID]"
+
+        Dim Parameter As String = "@OrderID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getOrderQuotationTestByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getOrderAttachmentMessage(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -295,17 +358,38 @@ Err:
 
 
     End Function
-    Public Function getOrderCustomer(ByRef value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCustomerAttachment(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_orderCusAttachment_by_ID]"
+        Dim sp As String = "[Company_get_Attachment_by_companyID]"
 
-        Dim Parameter As String = "@OrderID"
+        Dim Parameter As String = "@CompanyID"
 
         Dim Type As String = SqlDbType.Int
 
-        getOrderCustomer = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        getCustomerAttachment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getMaterialAttachment(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_Material_Attachment_by_companyID]"
+
+        Dim Parameter As String = "@ID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getMaterialAttachment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function

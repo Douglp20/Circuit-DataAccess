@@ -152,66 +152,12 @@ Err:
 #Region "Save Material"
 
 
-    Public Sub InsertMaterial(ByRef arrValue As ArrayList)
-        On Error GoTo Err
 
-
-        Dim sp As String = "[insert_Order_Material]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-
-
-
-        Parameter.Add("@OrderID")
-        Parameter.Add("@WholesalerID")
-        Parameter.Add("@City")
-        Parameter.Add("@StaffID")
-        Parameter.Add("@InvoiceNo")
-        Parameter.Add("@Amount")
-        Parameter.Add("@Notes")
-        Parameter.Add("@Invoicedate")
-        Parameter.Add("@item")
-        Parameter.Add("@InStockDate")
-        Parameter.Add("@Status")
-        Parameter.Add("@SubContractorPaidCheck")
-        Parameter.Add("@SentCheck")
-        Parameter.Add("@EmailMessage")
-        Parameter.Add("@UserName")
-
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.DateTime)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-
-
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValue)
-
-
-        Exit Sub
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Sub
-    Public Function UpdateMaterial(ByRef arrValues As ArrayList)
+    Public Function SaveOrderMaterial(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
 
-        Dim sp As String = "[update_Order_Material]"
+        Dim sp As String = "[Save_Order_Material]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
@@ -221,15 +167,13 @@ Err:
         Parameter.Add("@City")
         Parameter.Add("@StaffID")
         Parameter.Add("@InvoiceNo")
-        Parameter.Add("@Amount")
-        Parameter.Add("@Notes")
         Parameter.Add("@Invoicedate")
+        Parameter.Add("@Notes")
+        Parameter.Add("@Amount")
         Parameter.Add("@item")
         Parameter.Add("@InStockDate")
         Parameter.Add("@Status")
         Parameter.Add("@SubContractorPaidCheck")
-        Parameter.Add("@SentCheck")
-        Parameter.Add("@EmailMessage")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
@@ -238,16 +182,16 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+
+
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 

@@ -14,6 +14,28 @@
 
 
 #Region "Get Data  Invoice"
+    Public Function getInvoiceEmailMessage(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Invoice_get_email_status_by_id]"
+
+        Dim Parameter As String = "@ID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getInvoiceEmailMessage = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
     Public Function getInvoiceByOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -403,6 +425,37 @@ Err:
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateInvoiceEmaiStatus(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_invoice_email_action_by_ID]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@ID")
+        Parameter.Add("@InvoiceEmailMessage")
+        Parameter.Add("@InvoiceEmailStatus")
+        Parameter.Add("@InvoiceEmailStatusID")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function

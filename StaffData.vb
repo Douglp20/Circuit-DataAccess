@@ -390,7 +390,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Sub UpdateStaffWeekDays(ByRef arrValue As ArrayList)
+    Public Sub zzzUpdateStaffWeekDays(ByRef arrValue As ArrayList)
         On Error GoTo Err
 
 
@@ -424,6 +424,51 @@ Err:
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+
+
+        Exit Sub
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Sub
+    Public Sub SaveStaffWeekDay(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+
+        On Error GoTo Err
+
+        Dim sp As String = "[SAVE_staff_workday]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Monday")
+        Parameter.Add("@Tuesday")
+        Parameter.Add("@Wednesday")
+        Parameter.Add("@Thursday")
+        Parameter.Add("@Friday")
+        Parameter.Add("@Saturday")
+        Parameter.Add("@Sunday")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Sub
@@ -619,39 +664,38 @@ Err:
     End Function
 #End Region
 #Region "Staff Absence Save Data"
-    Public Function InsertStaffAbsence(ByRef arrValue As ArrayList) As Integer
+    Public Function SaveStaffAbsence(ByRef Value As ArrayList) As Integer
 
         On Error GoTo Err
 
 
 
-        Dim arrQueryString As New ArrayList
-        Dim sp As String = "[insert_staff_absence]"
-        Dim ParameterOutput As String = "@ID"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
 
-        For i As Integer = 1 To arrValue.Count - 1
-            arrQueryString.Add(arrValue(i))
-        Next
-
-        arrParameter.Add("@StaffID")
-        arrParameter.Add("@startDate")
-        arrParameter.Add("@endDate")
-        arrParameter.Add("@NoOfday")
-        arrParameter.Add("@Notes")
-        arrParameter.Add("@UserName")
-
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Date)
-        arrType.Add(SqlDbType.Date)
-        arrType.Add(SqlDbType.SmallInt)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
+        Dim sp As String = "[save_staff_absence]"
+        Dim ParameterOutput As String = "@OUT_ID"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
+        Parameter.Add("@id")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@startDate")
+        Parameter.Add("@endDate")
+        Parameter.Add("@NoOfday")
+        Parameter.Add("@Notes")
+        Parameter.Add("@UserName")
 
-        InsertStaffAbsence = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, arrParameter, ParameterOutput, arrType, arrQueryString)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.SmallInt)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        SaveStaffAbsence = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, Parameter, ParameterOutput, Type, Value)
 
 
 
@@ -702,26 +746,27 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 
-    Public Function InsertStaffAbsenceDate(ByRef arrValuesPass As ArrayList)
+    Public Function InsertStaffAbsenceDate(ByRef Value As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String = "[insert_staff_absenceDate]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Parameter.Add("@staffabsenceID")
+        Parameter.Add("@dayName")
+        Parameter.Add("@AbsenceDate")
+        Parameter.Add("@daySession")
 
 
-        arrParameter.Add("@staffabsenceID")
-        arrParameter.Add("@dayName")
-        arrParameter.Add("@AbsenceDate")
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.VarChar)
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Date)
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValuesPass)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Function
@@ -732,18 +777,18 @@ Err:
     End Function
 #End Region
 #Region "Staff Absence Delete Data"
-    Public Function DeleteStaffAbsenceDate(ByRef queryString As String)
+    Public Function DeleteStaffAbsenceDate(ByRef value As Integer, index As Integer)
 
         On Error GoTo Err
 
-        Dim sp As String = "[delete_staff_absenceDate]"
-
-
-        Dim Parameter As String = "@staffabsenceID"
+        Dim sp As String
+        If index = 0 Then sp = "[delete_staff_absence]"
+        If index = 1 Then sp = "[delete_staff_absenceDate]"
+        Dim Parameter As String = "@ID"
         Dim strType As String = SqlDbType.Int
 
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, strType, queryString)
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, strType, value)
 
 
         Exit Function

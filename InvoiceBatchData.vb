@@ -174,6 +174,50 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getApplicationByBatchID(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Batch_get_application_By_ID]"
+        Dim strParameter As String = "@ID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+
+        getApplicationByBatchID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, strQueryString)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getApplicationOrderByBatchID(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Batch_get_Order_application_by_batchID]"
+        Dim strParameter As String = "@batchID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+
+        getApplicationOrderByBatchID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, strQueryString)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getContractNoOrders(arrValue As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

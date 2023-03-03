@@ -59,7 +59,49 @@ Err:
 
     End Sub
 #End Region
+#Region "Invoice"
+    Public Function getInvoiceEmailCustomerInfoID(value As Integer) As SqlClient.SqlDataAdapter
 
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_invoice_email_customer_info_by_id]"
+        Dim Parameter As String = "@id"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getInvoiceEmailCustomerInfoID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Sub updateEmailInvoiceSent(ByRef Value As Integer)
+
+        On Error GoTo Err
+
+
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+        Dim sp As String = "[update_email_invoice_sent]"
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
 #Region "Order Picture Certificate"
 
     Public Function getOrderEmailCustomerInfoID(id As Integer) As SqlClient.SqlDataAdapter
@@ -122,6 +164,28 @@ Err:
 
 
         getPicturebyOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getInvoiceAttachmentByID(id As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_invoice_attachment_by_id]"
+        Dim strParameter As String = "@id"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getInvoiceAttachmentByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 

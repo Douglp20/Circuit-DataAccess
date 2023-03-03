@@ -262,16 +262,23 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getAvailableEmployee(dte As String) As SqlClient.SqlDataAdapter
+    Public Function getAvailableEmployeeAppointment(value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[STAFF_get_available_employee]"
-        Dim strParameter As String = "@Date"
-        Dim strType As String = SqlDbType.Char
+        Dim sp As String = "[STAFF_get_available_employee_appointment]"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@date")
+        Parameter.Add("@daySession")
 
-        getAvailableEmployee = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, strParameter, strType, dte)
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        getAvailableEmployeeAppointment = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
 
         Exit Function
 

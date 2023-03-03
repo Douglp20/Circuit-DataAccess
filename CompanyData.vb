@@ -13,6 +13,55 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+
+#Region "Setting"
+
+    Public Function getSettingCompany() As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        ''Company_get_jobType_by_contactID
+        Dim sp As String = "[Setting_get_all_company]"
+
+
+        getSettingCompany = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Sub saveSettingCompany(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim SP As String = "[Save_Setting_Company_Batch_ExpectedDate_flat]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+
+        Parameter.Add("@companyID")
+        Parameter.Add("@flag")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+
+#End Region
 #Region "Get Company email Data"
 
     Public Function getCompanyEmailPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
@@ -58,6 +107,23 @@ Err:
 #End Region
 
 #Region "Get Company Data"
+    Public Function getAllCompanyInfoForNewOrder() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[company_get_all_company_info_for_newOrder]"
+
+
+
+        getAllCompanyInfoForNewOrder = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getAllCompanyDropdownlist(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -388,51 +454,55 @@ Err:
 
         Dim arrValuesPass As New ArrayList
 
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-        Dim storeProcedure As String = "[update_company]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Dim SP As String = "[update_company]"
 
 
 
-        arrParameter.Add("@id")
-        arrParameter.Add("@Company")
-        arrParameter.Add("@Address")
-        arrParameter.Add("@Postcode")
-        arrParameter.Add("@worksheetnotes")
-        arrParameter.Add("@notes")
-        arrParameter.Add("@invoice_materials_percent")
-        arrParameter.Add("@voids_nonvoids_reports")
-        arrParameter.Add("@retention_req")
-        arrParameter.Add("@levy_req")
-        arrParameter.Add("@daily_appointment_reports")
-        arrParameter.Add("@disabled")
-        arrParameter.Add("@monthly_valuation_report")
-        arrParameter.Add("@vat_charge")
-        arrParameter.Add("@portal_update")
-        arrParameter.Add("@batch_invoice")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@id")
+        Parameter.Add("@Company")
+        Parameter.Add("@Address")
+        Parameter.Add("@Postcode")
+        Parameter.Add("@Email")
+        Parameter.Add("@worksheetnotes")
+        Parameter.Add("@notes")
+        Parameter.Add("@invoice_materials_percent")
+        Parameter.Add("@voids_nonvoids_reports")
+        Parameter.Add("@retention_req")
+        Parameter.Add("@levy_req")
+        Parameter.Add("@daily_appointment_reports")
+        Parameter.Add("@disabled")
+        Parameter.Add("@monthly_valuation_report")
+        Parameter.Add("@vat_charge")
+        Parameter.Add("@portal_update")
+        Parameter.Add("@batch_invoice")
+        Parameter.Add("@SageACRef")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, storeProcedure, arrParameter, arrType, arrValues)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, arrValues)
 
 
         Exit Function
@@ -691,7 +761,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[insert_Update_company_PriceList]"
+        Dim sp As String = "[save_company_PriceList]"
 
         Dim arrParameter As New ArrayList
         Dim arrType As New ArrayList
@@ -701,18 +771,23 @@ Err:
         arrParameter.Add("@CompanyID")
         arrParameter.Add("@projectID")
         arrParameter.Add("@code")
-        arrParameter.Add("@description")
-        arrParameter.Add("@price")
-        arrParameter.Add("@disprice")
+        arrParameter.Add("@Short")
+        arrParameter.Add("@medium")
+        arrParameter.Add("@Rate")
+        arrParameter.Add("@discount")
         arrParameter.Add("@UserName")
 
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.Int)
         arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.VarChar)
+        arrType.Add(SqlDbType.VarChar)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.SmallMoney)
         arrType.Add(SqlDbType.VarChar)
+
+
+
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
 

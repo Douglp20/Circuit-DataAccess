@@ -227,15 +227,59 @@ Err:
 #End Region
 #Region "Code Maintenance"
 
-    Public Function getALLCity() As SqlClient.SqlDataAdapter
+    Public Function getAllMaintenance(value As Integer) As SqlClient.SqlDataAdapter
         On Error GoTo Err
 
         ''Company_get_jobType_by_contactID
-        Dim sp As String = "[Maintenance_get_all_city]"
+        Dim sp As String = "[Maintenance_get_all_Maintenance_by_index]"
 
 
+        Dim Parameter As String = "@index"
+        Dim Type As String = SqlDbType.Int
 
-        getALLCity = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+        getAllMaintenance = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getMaintenanceByIndex(value As Integer) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        ''Company_get_jobType_by_contactID
+        Dim sp As String = "[Maintenance_get_by_index]"
+
+
+        Dim Parameter As String = "@index"
+        Dim Type As String = SqlDbType.Int
+
+        getMaintenanceByIndex = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getMaintenanceByCompany(value As ArrayList) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        ''Company_get_jobType_by_contactID
+        Dim sp As String = "[Maintenance_get_by_companyID]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@companyID")
+        Parameter.Add("@index")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+        getMaintenanceByCompany = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
         Exit Function
 
@@ -247,6 +291,40 @@ Err:
 
 #End Region
 #Region "Save Data"
+    Public Function SaveMaintenance(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        sp = "[Save_maintenance]"
+
+        Parameter.Add("@ID")
+        Parameter.Add("@index")
+        Parameter.Add("@Name")
+        Parameter.Add("@disabled")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function SaveCityDetail(ByRef Values As ArrayList)
 
         On Error GoTo Err

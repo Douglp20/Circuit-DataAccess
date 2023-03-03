@@ -12,17 +12,17 @@
 #End Region
 
 #Region "Get Order list Data"
-    Public Function getCompanyInfo(value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderPhaseByID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim SP As String = "[Order_get_order_company_info_company_by_id]"
+        Dim SP As String = "[Order_get_order_phase_by_id]"
         Dim Parameter As String = "@ID"
         Dim Type As String = SqlDbType.Int
 
 
 
-        getCompanyInfo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, SP, Parameter, Type, value)
+        getOrderPhaseByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, SP, Parameter, Type, value)
 
 
         Exit Function
@@ -32,6 +32,31 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+
+    Public Function GetCustomerEmailInfo(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim SP As String = "[Order_get_customer_email_info_by_id]"
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        GetCustomerEmailInfo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, SP, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+
+
+
+
     Public Function getOrderCertEngineer() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -350,6 +375,28 @@ Err:
     End Function
 #End Region
 #Region "Get Order Data"
+
+
+    Public Function GetOrderIDbyInvoiceID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim SP As String = "[Order_get_InvoiceID_by_id]"
+        Dim Parameter As String = "@InvoiceID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        GetOrderIDbyInvoiceID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, SP, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getApppointmentTimeList() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -456,23 +503,30 @@ Err:
 
 
     End Function
-    Public Function getOrderAddressDuplicate(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getOrderDuplication(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_order_address_duplicate]"
+        Dim sp As String = "[Order_get_order_duplicatation]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
-        Parameter.Add("@Postcode")
-        Parameter.Add("@Address")
         Parameter.Add("@OrderNo")
+        Parameter.Add("@RefNo")
+        Parameter.Add("@ClientNo")
+        Parameter.Add("@CallOutNo")
+        Parameter.Add("@Address")
+        Parameter.Add("@Postcode")
+
 
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
 
-        getOrderAddressDuplicate = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+        getOrderDuplication = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -486,6 +540,27 @@ Err:
 #End Region
 #Region "Get Order Notes"
 
+    Public Function getQuotationOrdeNotesByOrderID(id As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderQuotation_notes_by_OrderID]"
+        Dim strParameter As String = "@Orderid"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getQuotationOrdeNotesByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getOrderNotesByOrderID(id As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -520,12 +595,14 @@ Err:
 
         Parameter.Add("@OrderID")
         Parameter.Add("@Notes")
+        Parameter.Add("@SubContractorID")
         Parameter.Add("@AppointmentCheck")
         Parameter.Add("@WorksheetCheck")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
@@ -649,6 +726,9 @@ Err:
 
         Parameter.Add("@CompanyID")
         Parameter.Add("@OrderNo")
+        Parameter.Add("@RefNo")
+        Parameter.Add("@ClientNo")
+        Parameter.Add("@CallOutNo")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
         Parameter.Add("@targetdate")
@@ -658,6 +738,9 @@ Err:
 
 
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -721,6 +804,9 @@ Err:
         Parameter.Add("@CherryPickerCheck")
         Parameter.Add("@ClientJobNumber")
         Parameter.Add("@OrderNotes")
+        Parameter.Add("@ActionStatus")
+        Parameter.Add("@Comment")
+        Parameter.Add("@MaterialOrdered")
         Parameter.Add("@UserName")
 
 
@@ -761,6 +847,10 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 
@@ -771,7 +861,115 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function UpdateOrderPhase1(ByRef Value As ArrayList)
 
+        On Error GoTo Err
+
+        Dim sp As String = "[update_orders_Phase1]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@companyID")
+        Parameter.Add("@job_type_id")
+        Parameter.Add("@project_type_id")
+        Parameter.Add("@AppointmentTimeID")
+        Parameter.Add("@target_date")
+        Parameter.Add("@Start_time")
+        Parameter.Add("@End_time")
+        Parameter.Add("@order_no")
+        Parameter.Add("@ref_no")
+        Parameter.Add("@post_code")
+        Parameter.Add("@Tenant")
+        Parameter.Add("@Priority")
+        Parameter.Add("@Address")
+        Parameter.Add("@contractEmail")
+        Parameter.Add("@calloutNumber")
+        Parameter.Add("@ClientJobNumber")
+        Parameter.Add("@OrderNotes")
+        Parameter.Add("@saveforlatercheck")
+        Parameter.Add("@saveforlaterLoginID")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Sub UpdateOrderPhase2(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_orders_Phase2]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@Tenant")
+        Parameter.Add("@Priority")
+        Parameter.Add("@contractEmail")
+        Parameter.Add("@OrderNotes")
+        Parameter.Add("@Action")
+        Parameter.Add("@ActionText")
+        Parameter.Add("@certRequestedCheck")
+        Parameter.Add("@UserName")
+
+
+
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
     Public Sub UpdateOrderSaveForLater(ByRef arrValues As ArrayList)
 
         On Error GoTo Err

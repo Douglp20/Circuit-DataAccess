@@ -37,6 +37,29 @@ Err:
 
 
     End Function
+    Public Function getOrderQuotationItemDataOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderQuotation_item_by_OrderID_List]"
+
+        Dim strParameter As String = "@OrderID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = OrderID
+
+
+        getOrderQuotationItemDataOrderIDList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
     Public Function getOrderItemDataOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -49,6 +72,29 @@ Err:
 
 
         getOrderItemDataOrderIDList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
+    Public Function getOrderQuotationItemDataOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderitem_quotation_by_OrderID]"
+
+        Dim strParameter As String = "@OrderID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = OrderID
+
+
+        getOrderQuotationItemDataOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
         Exit Function
@@ -81,7 +127,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[Company_get_company_project_pricelist]"
+        Dim sp As String = "[ORDER_get_company_project_pricelist]"
         Dim arrParameter As New ArrayList
 
         arrParameter.Add("@companyID")
@@ -105,7 +151,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Company_get_company_project_pricelist_search]"
+        Dim sp As String = "[Order_get_company_project_pricelist_search]"
 
         Dim arrParameter As New ArrayList
         arrParameter.Add("@companyID")
@@ -179,43 +225,51 @@ Err:
 
     End Function
 
-    Public Function UpdateOrderItems(ByRef arrValues As ArrayList)
+    Public Function SaveOrderItem(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_order_items]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim sp As String = "[Save_order_items]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
-        arrParameter.Add("@id")
-        arrParameter.Add("@code")
-        arrParameter.Add("@description")
-        arrParameter.Add("@staffID")
-        arrParameter.Add("@quantity")
-        arrParameter.Add("@cost")
-        arrParameter.Add("@discount")
-        arrParameter.Add("@OrderID")
-        arrParameter.Add("@ItemSplitID")
-        arrParameter.Add("@ItemSplit")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@id")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@codes")
+        Parameter.Add("@description")
+        Parameter.Add("@staffID")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@discount")
+        Parameter.Add("@quoteDesc")
+        Parameter.Add("@quoteLocation")
+        Parameter.Add("@quoteReason")
+        Parameter.Add("@ItemSplitID")
+        Parameter.Add("@ItemSplit")
+        Parameter.Add("@UserName")
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Float)
-        arrType.Add(SqlDbType.Money)
-        arrType.Add(SqlDbType.Float)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function
@@ -225,40 +279,100 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function InsertOrderQuickItems(ByRef arrValues As ArrayList)
+    Public Function InsertOrderQuickItems(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
 
         Dim sp As String = "[insert_order_quick_items]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
-
-
-        arrParameter.Add("@OrderID")
-        arrParameter.Add("@code")
-        arrParameter.Add("@description")
-        arrParameter.Add("@quantity")
-        arrParameter.Add("@cost")
-        arrParameter.Add("@discount")
-        arrParameter.Add("@subTotal")
-        arrParameter.Add("@total")
-        arrParameter.Add("@UserName")
-
-
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Float)
-        arrType.Add(SqlDbType.Money)
-        arrType.Add(SqlDbType.Float)
-        arrType.Add(SqlDbType.Money)
-        arrType.Add(SqlDbType.Money)
-        arrType.Add(SqlDbType.VarChar)
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValues)
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@codes")
+        Parameter.Add("@description")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@discount")
+        Parameter.Add("@subTotal")
+        Parameter.Add("@total")
+        Parameter.Add("@quoteDesc")
+        Parameter.Add("@quoteLocation")
+        Parameter.Add("@quoteReason")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function UpdateOrderQuickItems(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_quick_items]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@codes")
+        Parameter.Add("@description")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@discount")
+        Parameter.Add("@subTotal")
+        Parameter.Add("@total")
+        Parameter.Add("@quoteDesc")
+        Parameter.Add("@quoteLocation")
+        Parameter.Add("@quoteReason")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 
 
         Exit Function
