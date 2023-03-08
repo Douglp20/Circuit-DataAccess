@@ -313,7 +313,23 @@ Err:
     End Sub
 #End Region
 #Region "Get Data"
+    Public Function getUserLoginAssignedToRoles() As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+        Dim SP As String = "[UserLogin_get_user_assigned_to_roles]"
+
+
+        getUserLoginAssignedToRoles = ViperCon.getSqlDataAdapter(Connection.ConnectionString, SP)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getLoginOldPassword(ByRef arrQueryString As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

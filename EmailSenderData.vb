@@ -197,17 +197,22 @@ Err:
     End Function
 
 
-    Public Sub updateEmailOrderPictureSent(ByRef Value As Integer)
+    Public Sub updateEmailOrderPictureSent(ByRef Value As ArrayList)
 
         On Error GoTo Err
 
+        Dim sp As String = "[update_orders_Phase2_email_picture]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Parameter.Add("@OrderID")
+        Parameter.Add("@UserName")
 
-        Dim Parameter As String = "@ID"
-        Dim Type As String = SqlDbType.Int
 
-        Dim sp As String = "[update_email_order_picture_sent]"
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
         Exit Sub
@@ -248,7 +253,7 @@ Err:
         Dim Parameter As String = "@ID"
         Dim Type As String = SqlDbType.Int
 
-        Dim sp As String = "[update_email_order_certificate_sent]"
+        Dim sp As String = "[update_orders_Phase3_email_certificate]"
 
         ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
 
@@ -286,15 +291,21 @@ Err:
 
 
 
-    Public Sub UpdateMailOrderWorkSheet(value As Integer)
+    Public Sub UpdateMailOrderWorkSheet(value As ArrayList)
         On Error GoTo Err
 
 
-        Dim sp As String = "[update_Service_email_order_worksheet_subContractor]"
-        Dim Parameter As String = "@OrderID"
-        Dim Type As String = SqlDbType.Int
+        Dim sp As String = "[update_orders_Phase1_email_worksheet]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+        Parameter.Add("@OrderID")
+        Parameter.Add("@UserName")
 
-        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
 
 
 

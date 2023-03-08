@@ -10,6 +10,7 @@
     End Sub
 
 #Region "Staff search and FormLoad"
+
     Public Function getAllStaffUsers() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

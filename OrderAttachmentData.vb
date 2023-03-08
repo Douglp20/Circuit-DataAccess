@@ -152,38 +152,7 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
-    Public Sub UpdateOrderCertificate(ByRef Value As ArrayList)
-        On Error GoTo Err
 
-
-        Dim sp As String = "[update_order_cerificate]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-
-        Parameter.Add("@ID")
-        Parameter.Add("@customerCertificateEmailMessage")
-        Parameter.Add("@customerCertificateStatusID")
-        Parameter.Add("@customerCertificateStatus")
-        Parameter.Add("@UserName")
-
-
-
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
-
-
-        Exit Sub
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Sub
     Public Sub deleteOrderPicture(ByRef ID As Integer)
         On Error GoTo Err
 
@@ -243,6 +212,27 @@ Err:
         Dim Type As String = SqlDbType.Int
 
         getOrderPicture = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getOrderWorksheetPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_orderWorkSheet_Picture_by_ID]"
+
+        Dim Parameter As String = "@OrderID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getOrderWorksheetPicture = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
