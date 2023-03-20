@@ -57,7 +57,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim SP As String = "[Order_get_customer_email_info_by_id]"
+        Dim SP As String = "[EMAIL_get_customer_email_info_by_id]"
         Dim Parameter As String = "@OrderID"
         Dim Type As String = SqlDbType.Int
 
@@ -826,7 +826,9 @@ Err:
         Parameter.Add("@OrderNotes")
         Parameter.Add("@ActionStatus")
         Parameter.Add("@Comment")
+        Parameter.Add("@Phase")
         Parameter.Add("@MaterialOrdered")
+        Parameter.Add("@UserLoginID")
         Parameter.Add("@UserName")
 
 
@@ -869,6 +871,8 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 
 

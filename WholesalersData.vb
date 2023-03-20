@@ -28,7 +28,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Wholesaler_subcontractor_By_ID]"
+        Dim sp As String = "[Wholesaler_get_subcontractor_By_ID]"
         Dim Parameter As String = "@WholesalerID"
         Dim Type As String = SqlDbType.Int
 

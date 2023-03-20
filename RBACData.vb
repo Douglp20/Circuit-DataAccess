@@ -40,10 +40,10 @@ Err:
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
-        Parameter.Add("@UserID")
-        Parameter.Add("@privilegeID")
+        Parameter.Add("@UserLoginID")
+        Parameter.Add("@privilegeName")
 
-        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
 
 

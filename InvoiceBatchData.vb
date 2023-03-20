@@ -178,7 +178,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Batch_get_application_By_ID]"
+        Dim sp As String = "[Batch_get_Order_application_By_ID]"
         Dim strParameter As String = "@ID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id

@@ -206,11 +206,12 @@ Err:
         Dim Type As New ArrayList
         Parameter.Add("@OrderID")
         Parameter.Add("@UserName")
+        Parameter.Add("@message")
 
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
-
+        Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
