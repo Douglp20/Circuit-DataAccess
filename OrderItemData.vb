@@ -13,6 +13,39 @@ Public Class OrderItemData
 
 #End Region
 
+
+#Region "SubContractor Assignments"
+
+    Public Function getOrderSubContractorAssignments(value As ArrayList) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_SubContractor_assignments]"
+        Dim Parameter As New ArrayList
+
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@JobNumber")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        getOrderSubContractorAssignments = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
+#End Region
+
 #Region "Get Data"
     Public Function getOrderItemDataOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 

@@ -477,6 +477,7 @@ Err:
         Parameter.Add("@vat_charge")
         Parameter.Add("@portal_update")
         Parameter.Add("@batch_invoice")
+        Parameter.Add("@batchOrderLimit")
         Parameter.Add("@SageACRef")
         Parameter.Add("@UserName")
 
@@ -498,6 +499,7 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 

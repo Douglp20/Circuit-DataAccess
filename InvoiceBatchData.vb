@@ -218,15 +218,57 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getContractNoOrders(arrValue As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getContractNoOrders(Value As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Batch_get_Order_by_contractNo]"
+        Dim Parameter As String = "@contractNo"
+
+        Dim Type As String = "SqlDbType.VarChar"
+
+
+        getContractNoOrders = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getContractNo_NoPOOrders(Value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Batch_get_Order_by_contractNo_WithNoPONo]"
+        Dim Parameter As String = "@contractNo"
+
+        Dim Type As String = "SqlDbType.VarChar"
+
+
+        getContractNo_NoPOOrders = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getContractAndPOOrders(arrValue As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Batch_get_Order_by_contractNo_PONo]"
         Dim Parameter As New ArrayList
 
         Parameter.Add("@contractNo")
-        Parameter.Add("@OrderRun")
+        Parameter.Add("@PONumber")
 
 
         Dim Type As New ArrayList
@@ -236,7 +278,7 @@ Err:
 
 
 
-        getContractNoOrders = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, arrValue)
+        getContractAndPOOrders = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, arrValue)
 
 
         Exit Function
@@ -447,10 +489,11 @@ Err:
 
         Parameter.Add("@Index")
         Parameter.Add("@InvoiceNo")
+        Parameter.Add("@PONo")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
-
+        Type.Add(SqlDbType.VarChar)
 
         GetInvoiceByInvoiceNo = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
 

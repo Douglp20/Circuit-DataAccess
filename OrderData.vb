@@ -11,7 +11,84 @@
     End Sub
 #End Region
 
+
+#Region "SubContractor Assignments"
+
+    Public Function getOrderSubContractorAssignmentSearch(value As ArrayList) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_SubContractor_assignment_search]"
+        Dim Parameter As New ArrayList
+
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@JobNumber")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        getOrderSubContractorAssignmentSearch = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
+    Public Function getOrderSubContractorAssignment(value As ArrayList) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_SubContractor_assignment]"
+        Dim Parameter As New ArrayList
+
+        Parameter.Add("@Year")
+        Parameter.Add("@Month")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        getOrderSubContractorAssignment = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
+#End Region
 #Region "Get Order list Data"
+
+    Public Function getOrderPhaseText() As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_phase_index_text]"
+        Dim Parameter As New ArrayList
+
+
+
+        getOrderPhaseText = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
     Public Function getOrderPhaseByID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -826,13 +903,16 @@ Err:
         Parameter.Add("@OrderNotes")
         Parameter.Add("@ActionStatus")
         Parameter.Add("@Comment")
-        Parameter.Add("@Phase")
+        Parameter.Add("@PhaseID")
         Parameter.Add("@MaterialOrdered")
         Parameter.Add("@UserLoginID")
+        Parameter.Add("@SaveForLaterCheck")
         Parameter.Add("@UserName")
 
 
 
+
+
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
@@ -870,10 +950,13 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+
+
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
@@ -1056,6 +1139,8 @@ Err:
         Parameter.Add("@Priority")
         Parameter.Add("@OrderNotes")
         Parameter.Add("@Confirmation")
+        Parameter.Add("@Contract_no")
+        Parameter.Add("@OrderRun_No")
         Parameter.Add("@UserName")
 
 
@@ -1079,6 +1164,8 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 
 

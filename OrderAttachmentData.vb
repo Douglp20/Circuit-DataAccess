@@ -369,17 +369,22 @@ Err:
 
 
     End Function
-    Public Function getCustomerAttachment(ByRef value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCustomerAttachment(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Company_get_Attachment_by_companyID]"
 
-        Dim Parameter As String = "@CompanyID"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
-        Dim Type As String = SqlDbType.Int
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@type")
 
-        getCustomerAttachment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+        getCustomerAttachment = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
