@@ -47,6 +47,36 @@ Err:
 #End Region
 
 #Region "Get Data"
+    Public Function getBatchAppOrderItemDataOrderID(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Batch_get_Application_Stage_correction_orderitem_by_OrderID]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Index")
+
+        Type.Add(SqlDbType.Int)
+        Type.add(SqlDbType.Int)
+
+
+
+
+        getBatchAppOrderItemDataOrderID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
     Public Function getOrderItemDataOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -93,18 +123,18 @@ Err:
 
 
     End Function
-    Public Function getOrderItemDataOrderIDList(OrderID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderItemDataByOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_orderitem_by_OrderID_List]"
+        Dim sp As String = "[Order_get_Order_orderitem_by_OrderID]"
 
         Dim strParameter As String = "@OrderID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = OrderID
 
 
-        getOrderItemDataOrderIDList = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderItemDataByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
         Exit Function
@@ -257,6 +287,39 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+
+
+    Public Sub UpdateOrderItemBatchApp(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_items_batch_app]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@id")
+        Parameter.Add("@BatchAppID")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Sub
 
     Public Function SaveOrderItem(ByRef Values As ArrayList)
 
@@ -549,5 +612,49 @@ Err:
 
     End Function
 #End Region
+    Public Function UpdateBatchApplicationOrderQuickItems(ByRef Values As ArrayList)
 
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_Batch_Application_order_items]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@codes")
+        Parameter.Add("@description")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@discount")
+        Parameter.Add("@subTotal")
+        Parameter.Add("@total")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.Money)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 End Class

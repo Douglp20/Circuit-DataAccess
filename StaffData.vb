@@ -690,7 +690,7 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Date)
         Type.Add(SqlDbType.Date)
-        Type.Add(SqlDbType.SmallInt)
+        Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 

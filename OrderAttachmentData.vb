@@ -10,6 +10,33 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+
+#Region "ExcelApplicationTemplate"
+
+    Public Function ExcelApplicationTemplate(value As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Batch_get_application_excel_template_CompanyID]"
+        Dim Parameter As String = "@companyid"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        ExcelApplicationTemplate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
+
 #Region "Picture"
     Public Sub insertOrderImage(ByRef Value As ArrayList, ImageData As Byte())
         On Error GoTo Err

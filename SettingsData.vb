@@ -11,6 +11,59 @@
 #End Region
 
 
+#Region "Schedule"
+
+    Public Function getSettingCompanySchedule() As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+        ''Company_get_jobType_by_contactID
+        Dim sp As String = "[Setting_get_Company_Schedule]"
+
+
+        getSettingCompanySchedule = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Sub saveSettingCompanySchedule(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim SP As String = "[SAVE_Setting_Company_Schedule]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+
+        Parameter.Add("@ID")
+        Parameter.Add("@company")
+        Parameter.Add("@Schedule1")
+        Parameter.Add("@Schedule2")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
+
 #Region "Get Data"
     Public Function getSettings() As SqlClient.SqlDataAdapter
 

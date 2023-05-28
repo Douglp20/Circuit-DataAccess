@@ -14,54 +14,7 @@
     End Sub
 #End Region
 
-#Region "Setting"
 
-    Public Function getSettingCompany() As SqlClient.SqlDataAdapter
-        On Error GoTo Err
-
-        ''Company_get_jobType_by_contactID
-        Dim sp As String = "[Setting_get_all_company]"
-
-
-        getSettingCompany = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Function
-    Public Sub saveSettingCompany(ByRef Value As ArrayList)
-
-        On Error GoTo Err
-
-
-        Dim SP As String = "[Save_Setting_Company_Batch_ExpectedDate_flat]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-
-
-
-        Parameter.Add("@companyID")
-        Parameter.Add("@flag")
-
-
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Bit)
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, Value)
-
-
-        Exit Sub
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Sub
-
-#End Region
 #Region "Get Company email Data"
 
     Public Function getCompanyEmailPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
@@ -320,7 +273,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getBatchExcelRef() As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Company_get_application_excel_template_ref]"
+
+
+
+        getBatchExcelRef = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 #End Region
 #Region "Get Order Item"
     Public Function GetCompanyPricelistbycompanyIDList(companyID As Integer) As SqlClient.SqlDataAdapter
@@ -464,7 +436,8 @@ Err:
         Parameter.Add("@Company")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
-        Parameter.Add("@Email")
+        Parameter.Add("@emailGlobal")
+        Parameter.Add("@emailCancelled")
         Parameter.Add("@worksheetnotes")
         Parameter.Add("@notes")
         Parameter.Add("@invoice_materials_percent")
@@ -479,6 +452,9 @@ Err:
         Parameter.Add("@batch_invoice")
         Parameter.Add("@batchOrderLimit")
         Parameter.Add("@SageACRef")
+        Parameter.Add("@batchExcelRef")
+        Parameter.Add("@correctionAppChecked")
+        Parameter.Add("@emailCancelledCheck")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
@@ -489,6 +465,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
@@ -501,6 +478,9 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
 
 
