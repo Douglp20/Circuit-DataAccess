@@ -274,8 +274,10 @@ Err:
         Dim Type As New ArrayList
 
         Parameter.Add("@companyID")
+        Parameter.Add("@companySubID")
         Parameter.Add("@index")
 
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
 

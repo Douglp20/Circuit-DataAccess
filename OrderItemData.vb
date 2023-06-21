@@ -185,22 +185,24 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function getCompanyProjectPriceList(arrValue As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getCompanyContractPriceList(Value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[ORDER_get_company_project_pricelist]"
-        Dim arrParameter As New ArrayList
+        Dim sp As String = "[ORDER_get_ompany_contract_pricelist]"
+        Dim Parameter As New ArrayList
 
-        arrParameter.Add("@companyID")
-        arrParameter.Add("@projectID")
+        Parameter.Add("@companyID")
+        Parameter.Add("@CompanySubID")
+        Parameter.Add("@projectID")
 
-        Dim arrType As New ArrayList
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
 
-        getCompanyProjectPriceList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+        getCompanyContractPriceList = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
 
@@ -210,24 +212,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getCompanyProjectPricelistbySearch(ByRef arrValue As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getCompanyContractPricelistbySearch(ByRef Value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_company_project_pricelist_search]"
+        Dim sp As String = "[Order_get_company_contract_pricelist_search]"
 
-        Dim arrParameter As New ArrayList
-        arrParameter.Add("@companyID")
-        arrParameter.Add("@ProjectID")
-        arrParameter.Add("@SearchText")
+        Dim Parameter As New ArrayList
+        Parameter.Add("@companyID")
+        Parameter.Add("@CompanySubID")
+        Parameter.Add("@projectID")
+        Parameter.Add("@SearchText")
 
 
-        Dim arrType As New ArrayList
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
-        getCompanyProjectPricelistbySearch = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, arrParameter, arrType, arrValue)
+        getCompanyContractPricelistbySearch = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
 
 
 

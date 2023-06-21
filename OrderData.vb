@@ -10,7 +10,48 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+#Region "Get Company Data"
+    Public Function getAllCompanyInfoForNewOrder() As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+        Dim sp As String = "[ORDER_get_company_info_for_newOrder]"
+
+
+
+        getAllCompanyInfoForNewOrder = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getCompanySubNewOrderByID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[ORDER_get_company_sub_new_order_by_id]"
+        Dim Parameter As String = "@id"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getCompanySubNewOrderByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+
+#End Region
 
 #Region "SubContractor Assignments"
 
@@ -192,18 +233,18 @@ Err:
 
 
     End Function
-    Public Function getOrderCompanyID(value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderAdvanceInfo(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_order_company_id]"
+        Dim sp As String = "[Order_get_order_Advance_Info]"
 
         Dim Parameter As String = "@OrderID"
         Dim Type As String = SqlDbType.Int
 
 
 
-        getOrderCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        getOrderAdvanceInfo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
         Exit Function
 
@@ -821,8 +862,8 @@ Err:
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
-
         Parameter.Add("@CompanyID")
+        Parameter.Add("@CompanySubID")
         Parameter.Add("@OrderNo")
         Parameter.Add("@RefNo")
         Parameter.Add("@ClientNo")
@@ -835,6 +876,7 @@ Err:
         Parameter.Add("@UserName")
 
 
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -869,6 +911,7 @@ Err:
 
         Parameter.Add("@id")
         Parameter.Add("@companyID")
+        Parameter.Add("@CompanySubID")
         Parameter.Add("@coded")
         Parameter.Add("@Cancelled")
         Parameter.Add("@Address")
@@ -893,13 +936,14 @@ Err:
         Parameter.Add("@ActionStatus")
         Parameter.Add("@Comment")
         Parameter.Add("@PhaseID")
-        Parameter.Add("@UserLoginID")
-        Parameter.Add("@SaveForLaterCheck")
         Parameter.Add("@OrderNotes")
+        Parameter.Add("@saveforlaterLoginID")
+        Parameter.Add("@saveforlaterCheck")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
@@ -926,7 +970,7 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -952,6 +996,7 @@ Err:
 
         Parameter.Add("@id")
         Parameter.Add("@companyID")
+        Parameter.Add("@CompanySubID")
         Parameter.Add("@job_type_id")
         Parameter.Add("@project_type_id")
         Parameter.Add("@AppointmentTimeID")
@@ -968,8 +1013,6 @@ Err:
         Parameter.Add("@calloutNumber")
         Parameter.Add("@ClientJobNumber")
         Parameter.Add("@OrderNotes")
-        Parameter.Add("@saveforlatercheck")
-        Parameter.Add("@saveforlaterLoginID")
         Parameter.Add("@UserName")
 
 
@@ -978,6 +1021,7 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.DateTime)
@@ -990,8 +1034,6 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 

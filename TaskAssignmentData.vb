@@ -33,6 +33,35 @@ Err:
     End Function
 #End Region
 
+#Region "Notication"
+
+    Public Function getTaskAssignmentNotificationByLoginID(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Task_get_notification_by_LoginID]"
+        Dim Parameter As New ArrayList
+        Parameter.Add("@LoginID")
+        Parameter.Add("@Index")
+
+        Dim Type As New ArrayList
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+
+
+
+
+        getTaskAssignmentNotificationByLoginID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+#End Region
 #Region "Get  Data"
     Public Function getTaskInfo(Value As Integer) As SqlClient.SqlDataAdapter
 
@@ -244,6 +273,7 @@ Err:
         Parameter.Add("@tasktype")
         Parameter.Add("@status")
         Parameter.Add("@OrderID")
+        Parameter.Add("@DueDate")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.VarChar)
@@ -255,6 +285,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -295,6 +326,7 @@ Err:
         Parameter.Add("@active")
         Parameter.Add("@status")
         Parameter.Add("@OrderID")
+        Parameter.Add("@DueDate")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
@@ -306,6 +338,7 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
 
 
