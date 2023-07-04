@@ -10,6 +10,145 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+
+#Region "Phase 2 WorkTicket"
+    Public Function getWorkTicketSubcontractorByOrderID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Order_get_workticket_subcontractor_by_OrderID]"
+        Dim Parameter As String = "@OrderID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getWorkTicketSubcontractorByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+    Public Function getWorkTicketByID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Order_get_workticket_By_ID]"
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getWorkTicketByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getWorkTicketNotesByWorkID(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Order_get_workticket_subcontractor_notes_by_workID]"
+
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@workID")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+
+        getWorkTicketNotesByWorkID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Sub UpdateWorkTicketSubcontractor(value As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_Order_workticket]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@tick1")
+        Parameter.Add("@tick2")
+        Parameter.Add("@tick3")
+        Parameter.Add("@tick4")
+        Parameter.Add("@tick5")
+        Parameter.Add("@tick6")
+        Parameter.Add("@tick7")
+        Parameter.Add("@tick8")
+        Parameter.Add("@tick9")
+        Parameter.Add("@tick10")
+        Parameter.Add("@tick11")
+        Parameter.Add("@tenant1")
+        Parameter.Add("@tenant2")
+        Parameter.Add("@contractorCardDate")
+        Parameter.Add("@contractorCardTime")
+        Parameter.Add("@NoAccessCardDate")
+        Parameter.Add("@NoAccessCardTime")
+        Parameter.Add("@UserName")
+
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
+
+
 #Region "Get Company Data"
     Public Function getAllCompanyInfoForNewOrder() As SqlClient.SqlDataAdapter
 
