@@ -509,17 +509,26 @@ Err:
 
 
     End Function
-    Public Function getApplicationStage2OrderByContractNo(Value As String) As SqlClient.SqlDataAdapter
+    Public Function getApplicationStage2OrderByContractNo(Value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Batch_get_application_stage2_Order_by_contractNo]"
-        Dim Parameter As String = "@contractNo"
 
-        Dim Type As String = "SqlDbType.VarChar"
+        Dim Parameter As New ArrayList
+
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@contractNo")
+
+        Dim Type As New ArrayList
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
 
-        getApplicationStage2OrderByContractNo = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+        getApplicationStage2OrderByContractNo = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, Value)
 
 
         Exit Function

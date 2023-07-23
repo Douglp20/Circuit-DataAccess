@@ -12,6 +12,30 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 #End Region
+
+#Region "VO Request"
+    Public Sub VORequestEmailSent(value As Integer)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_phase5_vo_request_email_sent_by_OrderID]"
+        Dim Parameter As String = "@VORequestID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+#End Region
 #Region "Material"
     Public Function GetMailMaterial(value As Integer) As SqlClient.SqlDataAdapter
         On Error GoTo Err
@@ -32,6 +56,7 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+
     Public Sub UpdateMailWholesaler(value As ArrayList)
         On Error GoTo Err
 
@@ -104,19 +129,25 @@ Err:
 #End Region
 #Region "Order Picture Certificate"
 
-    Public Function getOrderEmailCustomerInfoID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderEmailCustomerInfoID(value As ArrayList) As SqlClient.SqlDataAdapter
 
 
         On Error GoTo Err
 
 
         Dim sp As String = "[EMAIL_order_email_customer_info_by_id]"
-        Dim strParameter As String = "@id"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@index")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
 
 
-        getOrderEmailCustomerInfoID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderEmailCustomerInfoID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -267,6 +298,30 @@ Err:
     End Sub
 
 
+#End Region
+#Region "PO Request"
+    Public Function getOrderQuotationOrderID(id As Integer) As SqlClient.SqlDataAdapter
+
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[REPORT_order_quotation_by_order_id]"
+        Dim strParameter As String = "@id"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = id
+
+
+        getOrderQuotationOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
 #End Region
 #Region "Order Worksheet"
 

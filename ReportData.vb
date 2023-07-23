@@ -13,19 +13,19 @@
     End Sub
 #End Region
 #Region "Order"
-    Public Function getWorkTicketbyOrderID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getWorkTicketbyOrderID(value As Integer) As SqlClient.SqlDataAdapter
 
 
         On Error GoTo Err
 
 
         Dim sp As String = "[REPORT_work_ticket_by_order_id]"
-        Dim strParameter As String = "@id"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = id
+        Dim Parameter As String = "@id"
+        Dim Type As String = SqlDbType.Int
 
 
-        getWorkTicketbyOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+        getWorkTicketbyOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 

@@ -16,6 +16,29 @@
 #End Region
 
 #Region "The Login Process "
+
+
+
+    Public Function getUserLoginID() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[UserLogin_get_UserLoginID]"
+
+
+        getUserLoginID = ViperCon.getSqlDataAdapter(Connection.getConnection, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getLoginID(LoginID As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -23,7 +46,7 @@
 
         Dim sp As String = "[UserLogin_get_UserLogin_by_LoginID]"
         Dim strParameter As String = "@LoginID"
-        Dim strType As String = SqlDbType.Char
+        Dim strType As String = SqlDbType.VarChar
         Dim strQueryString As String = LoginID
 
         ' Dim d As String = Connection.getConnection
@@ -317,7 +340,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim SP As String = "[UserLogin_get_user_assigned_to_roles]"
+        Dim SP As String = "[UserLogin_get_Order_user_assigned_to_roles]"
 
 
         getUserLoginAssignedToRoles = ViperCon.getSqlDataAdapter(Connection.ConnectionString, SP)

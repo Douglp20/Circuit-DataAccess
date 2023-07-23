@@ -13,7 +13,240 @@ Public Class OrderItemData
 
 #End Region
 
+#Region "Order PO Request"
+    Public Function getPhase5VORequestItemByOrderID(value As ArrayList) As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_phase5_vo_request_item_by_OrderID]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Index")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+        getPhase5VORequestItemByOrderID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Function
+
+    Public Function InsertVORequest(ByRef Value As ArrayList) As Integer
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[insert_order_vo_request]"
+        Dim ParameterOutput As String = "@ID"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        InsertVORequest = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, sp, Parameter, ParameterOutput, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function InsertVORequestItem(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[insert_order_phase5_po_request_item]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@VOID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@description")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@subTotal")
+        Parameter.Add("@quoteDesc")
+        Parameter.Add("@quoteLocation")
+        Parameter.Add("@quoteReason")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function UpdateVORequestItem(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_order_phase5_vo_request_item]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@VoRequestID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@code")
+        Parameter.Add("@description")
+        Parameter.Add("@quantity")
+        Parameter.Add("@cost")
+        Parameter.Add("@subTotal")
+        Parameter.Add("@quoteDesc")
+        Parameter.Add("@quoteLocation")
+        Parameter.Add("@quoteReason")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Sub UpdateVoTransferAsCompletedByOrderID(value As Integer)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_order_phase5_vo_request_transfer_by_OrderID]"
+
+        Dim Parameter As String = "@VORequestID"
+        Dim Type As String = SqlDbType.Int
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+
+    End Sub
+    Public Function DeleteVORequestItem(ByRef ItemID As Integer)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[delete_order_vo_request_item]"
+        Dim strParameter As String = "@ID"
+        Dim strType As String = SqlDbType.Int
+        Dim strQueryString As String = ItemID
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+#End Region
+#Region "Phase 3 Certificate"
+    Public Sub SaveOrderVORequest(ByRef Value As ArrayList)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Save_order_phase3_vo_request]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@OrderID")
+        Parameter.Add("@Description")
+        Parameter.Add("@qty")
+        Parameter.Add("@location")
+        Parameter.Add("@reason")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+#End Region
 #Region "SubContractor Assignments"
 
     Public Function getOrderSubContractorAssignments(value As ArrayList) As SqlClient.SqlDataAdapter
@@ -146,18 +379,18 @@ Err:
 
 
     End Function
-    Public Function getOrderQuotationItemDataOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderItemQuickDataByOrderID(OrderID As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_orderitem_quotation_by_OrderID]"
+        Dim sp As String = "[Order_get_Order_orderitem_by_OrderID]"
 
         Dim strParameter As String = "@OrderID"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = OrderID
 
 
-        getOrderQuotationItemDataOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderItemQuickDataByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
         Exit Function
@@ -190,7 +423,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[ORDER_get_ompany_contract_pricelist]"
+        Dim sp As String = "[ORDER_get_company_contract_pricelist]"
         Dim Parameter As New ArrayList
 
         Parameter.Add("@companyID")
@@ -337,18 +570,15 @@ Err:
 
         Parameter.Add("@id")
         Parameter.Add("@OrderID")
+        Parameter.Add("@staffID")
         Parameter.Add("@code")
         Parameter.Add("@codes")
         Parameter.Add("@description")
-        Parameter.Add("@staffID")
         Parameter.Add("@quantity")
         Parameter.Add("@cost")
+        Parameter.Add("@SubTotal")
         Parameter.Add("@discount")
-        Parameter.Add("@quoteDesc")
-        Parameter.Add("@quoteLocation")
-        Parameter.Add("@quoteReason")
-        Parameter.Add("@ItemSplitID")
-        Parameter.Add("@ItemSplit")
+        Parameter.Add("@Total")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
@@ -356,15 +586,13 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Float)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -392,31 +620,23 @@ Err:
 
         Parameter.Add("@OrderID")
         Parameter.Add("@code")
-        Parameter.Add("@codes")
         Parameter.Add("@description")
         Parameter.Add("@quantity")
         Parameter.Add("@cost")
-        Parameter.Add("@discount")
         Parameter.Add("@subTotal")
+        Parameter.Add("@discount")
         Parameter.Add("@total")
-        Parameter.Add("@quoteDesc")
-        Parameter.Add("@quoteLocation")
-        Parameter.Add("@quoteReason")
         Parameter.Add("@UserName")
 
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Float)
-        Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Money)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Float)
+        Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -443,31 +663,23 @@ Err:
         Parameter.Add("@ID")
         Parameter.Add("@OrderID")
         Parameter.Add("@code")
-        Parameter.Add("@codes")
         Parameter.Add("@description")
         Parameter.Add("@quantity")
         Parameter.Add("@cost")
         Parameter.Add("@discount")
         Parameter.Add("@subTotal")
         Parameter.Add("@total")
-        Parameter.Add("@quoteDesc")
-        Parameter.Add("@quoteLocation")
-        Parameter.Add("@quoteReason")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Float)
         Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Money)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 
 

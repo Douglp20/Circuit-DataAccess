@@ -63,6 +63,27 @@ Err:
     End Function
 #End Region
 #Region "Get  Data"
+
+
+    Public Function getTaskUserAssigned() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Task_get_taskAssignment_UserAssigned]"
+
+
+        getTaskUserAssigned = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
     Public Function getTaskInfo(Value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -102,44 +123,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-
-    Public Function getAllTaskAssignment(value As Integer) As SqlClient.SqlDataAdapter
-
-        On Error GoTo Err
-
-        Dim sp As String = "[Task_get_all_taskAssignment]"
-        Dim Parameter As String = "@Index"
-        Dim Type As String = SqlDbType.Int
-        getAllTaskAssignment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-    End Function
-
-    Public Function getAllTaskAssignmentByLoginID(loginID As String, Index As Integer) As SqlClient.SqlDataAdapter
+    Public Function getAllTaskAssignmentBySearch(value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Task_get_taskAssignment_by_LoginID]"
+        Dim sp As String = "[Task_get_taskAssignment_by_Search]"
         Dim Parameter As New ArrayList
-        Parameter.Add("@LoginID")
-        Parameter.Add("@Index")
-
         Dim Type As New ArrayList
-        Type.Add(SqlDbType.Char)
-        Type.Add(SqlDbType.Char)
 
-        Dim value As New ArrayList
-        value.Add(loginID)
-        value.Add(Index)
+        Parameter.Add("@View")
+        Parameter.Add("@Status")
+        Parameter.Add("@UserID")
+        Parameter.Add("@LoginID")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
 
 
-        getAllTaskAssignmentByLoginID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
-
+        getAllTaskAssignmentBySearch = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
         Exit Function
@@ -148,6 +151,51 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    '    Public Function getAllTaskAssignment(value As Integer) As SqlClient.SqlDataAdapter
+
+    '        On Error GoTo Err
+
+    '        Dim sp As String = "[Task_get_all_taskAssignment]"
+    '        Dim Parameter As String = "@Index"
+    '        Dim Type As String = SqlDbType.Int
+    '        getAllTaskAssignment = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+    '        Exit Function
+
+    'Err:
+    '        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+    '        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    '    End Function
+
+    '    Public Function getAllTaskAssignmentByLoginID(loginID As String, Index As Integer) As SqlClient.SqlDataAdapter
+
+    '        On Error GoTo Err
+
+    '        Dim sp As String = "[Task_get_taskAssignment_by_LoginID]"
+    '        Dim Parameter As New ArrayList
+    '        Parameter.Add("@LoginID")
+    '        Parameter.Add("@Index")
+
+    '        Dim Type As New ArrayList
+    '        Type.Add(SqlDbType.Char)
+    '        Type.Add(SqlDbType.Char)
+
+    '        Dim value As New ArrayList
+    '        value.Add(loginID)
+    '        value.Add(Index)
+
+
+    '        getAllTaskAssignmentByLoginID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+    '        Exit Function
+
+    'Err:
+    '        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+    '        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    '    End Function
     Public Function getTaskAssignmentCountByLoginID(loginID As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

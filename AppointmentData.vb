@@ -161,6 +161,30 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function getPhase1AppointmentByDate(Value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Appointment_get_phase1_appointment_by_date]"
+
+        Dim Parameter As String = "@date"
+        Dim Type As String = SqlDbType.DateTime
+
+
+
+        getPhase1AppointmentByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, Value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
     Public Function getJobAppointmentByDate(Value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

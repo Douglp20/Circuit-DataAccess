@@ -69,7 +69,7 @@ Err:
 
         On Error GoTo Err
 
-       
+
         Dim sp As String = "[SETTING_get_settings]"
 
 
@@ -115,8 +115,9 @@ Err:
         Parameter.Add("@WholesalerEmail")
         Parameter.Add("@emailServiceRunning")
         Parameter.Add("@emailHeader")
+        Parameter.Add("@CallOutDefaultCode")
+        Parameter.Add("@displayOutlook")
 
-
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -136,6 +137,8 @@ Err:
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 

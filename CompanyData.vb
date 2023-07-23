@@ -30,12 +30,14 @@
         Parameter.Add("@CompanyID")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
+        Parameter.Add("@notes")
         Parameter.Add("@worksheetnotes")
         Parameter.Add("@UserName")
 
 
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -68,11 +70,13 @@ Err:
         Parameter.Add("@Company")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
+        Parameter.Add("@notes")
         Parameter.Add("@worksheetnotes")
         Parameter.Add("@disabled")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)

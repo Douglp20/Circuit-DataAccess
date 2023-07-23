@@ -111,41 +111,7 @@ Err:
 
     End Sub
 
-    Public Sub SaveOrderQuotation(ByRef Value As ArrayList)
-        On Error GoTo Err
 
-
-        Dim sp As String = "[Update_order_quotation]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
-
-        Parameter.Add("@ID")
-        Parameter.Add("@OrderID")
-        Parameter.Add("@Description")
-        Parameter.Add("@qty")
-        Parameter.Add("@location")
-        Parameter.Add("@reason")
-        Parameter.Add("@UserName")
-
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Float)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-
-
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
-
-
-        Exit Sub
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-    End Sub
     Public Sub UpdateOrderPicture(ByRef Value As ArrayList)
         On Error GoTo Err
 
@@ -228,6 +194,35 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Sub
+    Public Function getPhase3SubbiePicture(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_order_phase3_picture_by_ID]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@index")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+        getPhase3SubbiePicture = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
+
     Public Function getOrderPicture(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -333,32 +328,12 @@ Err:
 
 
     End Function
-    Public Function getOrderQuotationTestByID(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
-        On Error GoTo Err
-
-        Dim sp As String = "[Order_get_order_quotation_test_by_ID]"
-
-        Dim Parameter As String = "@OrderID"
-
-        Dim Type As String = SqlDbType.Int
-
-        getOrderQuotationTestByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
-
-
-        Exit Function
-
-Err:
-        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
-        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
-
-
-    End Function
     Public Function getOrderAttachmentMessage(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_orderAttachment_status_by_id]"
+        Dim sp As String = "[Order_get_order_Attachment_status_by_id]"
 
         Dim Parameter As String = "@ID"
 
