@@ -325,6 +325,34 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function getbonusByStaffID(ByRef value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Payroll_get_bonus_by_StaffID]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@StaffID")
+        Parameter.Add("@PayrollID")
+        Parameter.Add("@Index")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+        getbonusByStaffID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
 #End Region
 #End Region
 #Region "Save Data"
@@ -363,62 +391,65 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function UpdatePayroll(ByRef arrValues As ArrayList)
+    Public Function UpdatePayroll(ByRef Values As ArrayList)
 
         On Error GoTo Err
 
         Dim sp As String = "[update_Payroll]"
-        Dim arrParameter As New ArrayList
-        Dim arrType As New ArrayList
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
 
 
 
-        arrParameter.Add("@id")
-        arrParameter.Add("@Staffid")
-        arrParameter.Add("@Month")
-        arrParameter.Add("@Year")
-        arrParameter.Add("@notes")
-        arrParameter.Add("@Hour_worked")
-        arrParameter.Add("@Hour_Added")
-        arrParameter.Add("@Hourly_Rate")
-        arrParameter.Add("@Hourly_total")
-        arrParameter.Add("@material_les")
-        arrParameter.Add("@material_om")
-        arrParameter.Add("@BACS")
-        arrParameter.Add("@OrderTotal")
-        arrParameter.Add("@TAX")
-        arrParameter.Add("@NI")
-        arrParameter.Add("@BACS_Outstanding")
-        arrParameter.Add("@BACS_Paid")
-        arrParameter.Add("@deduction")
-        arrParameter.Add("@addition")
-        arrParameter.Add("@closed")
-        arrParameter.Add("@UserName")
+        Parameter.Add("@id")
+        Parameter.Add("@Staffid")
+        Parameter.Add("@Month")
+        Parameter.Add("@Year")
+        Parameter.Add("@notes")
+        Parameter.Add("@Hour_worked")
+        Parameter.Add("@Hour_Added")
+        Parameter.Add("@Hourly_Rate")
+        Parameter.Add("@Hourly_total")
+        Parameter.Add("@material_les")
+        Parameter.Add("@material_om")
+        Parameter.Add("@BACS")
+        Parameter.Add("@OrderTotal")
+        Parameter.Add("@TAX")
+        Parameter.Add("@NI")
+        Parameter.Add("@BACS_Outstanding")
+        Parameter.Add("@BACS_Paid")
+        Parameter.Add("@deduction")
+        Parameter.Add("@addition")
+        Parameter.Add("@closed")
+        Parameter.Add("@Bonus")
+
+        Parameter.Add("@UserName")
 
 
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.Int)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.SmallMoney)
-        arrType.Add(SqlDbType.Bit)
-        arrType.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.VarChar)
 
-        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrValues)
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString(), sp, Parameter, Type, Values)
 
 
         Exit Function

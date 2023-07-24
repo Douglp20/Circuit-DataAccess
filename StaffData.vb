@@ -9,6 +9,161 @@
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
 
+#Region "Bonus"
+    Public Function getStaffBonusbyStaffID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_Bonus_by_staffID]"
+        Dim Parameter As String = "@StaffID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getStaffBonusbyStaffID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getStaffBonusbyID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_Bonus_by_ID]"
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getStaffBonusbyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Sub InsertStaffBonus(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+
+
+
+        Dim sp As String = "[Insert_StaffBonus]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Hour")
+        Parameter.Add("@Rate")
+        Parameter.Add("@Labour")
+        Parameter.Add("@Total")
+        Parameter.Add("@Reason")
+        Parameter.Add("@option")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub UpdateStaffBonus(ByRef value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Update_StaffBonus]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@ID")
+        Parameter.Add("@StaffID")
+        Parameter.Add("@Hour")
+        Parameter.Add("@Rate")
+        Parameter.Add("@Labour")
+        Parameter.Add("@Total")
+        Parameter.Add("@Reason")
+        Parameter.Add("@option")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.SmallMoney)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+    Public Sub DeleteStaffBonus(ByRef Value As Integer)
+
+        On Error GoTo Err
+
+
+
+
+        Dim sp As String = "[Delete_StaffBonus]"
+
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+#End Region
+
 #Region "Staff search and FormLoad"
 
     Public Function getAllStaffUsers() As SqlClient.SqlDataAdapter
