@@ -8,6 +8,55 @@
         Dim ErrMessage As String = ">> Called by the module : " + Me.ToString
         RaiseEvent ErrorMessage(errDesc, errNo, ErrMessage + vbCrLf + errTrace)
     End Sub
+
+
+#Region " RBAC User Emails"
+    Public Function getRBACUserApprover(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[RBAC_get_user_approver]"
+
+        Dim Parameter As String = "@Approval"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getRBACUserApprover = ViperCon.getSqlDataAdapterWithParameter(connection.getConnection, sp, Parameter, Type, value)
+
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getUserEmailHolidayApproval() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[RBAC_Users_get_holiday_approver]"
+
+        getUserEmailHolidayApproval = ViperCon.getSqlDataAdapter(connection.getConnection, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+
+#End Region
+
 #Region "Get User Control"
     Public Function getRBACUserLoginPrivilege(value As Integer) As SqlClient.SqlDataAdapter
 

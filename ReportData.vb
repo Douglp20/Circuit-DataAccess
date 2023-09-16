@@ -23,6 +23,7 @@
         Dim Parameter As String = "@id"
         Dim Type As String = SqlDbType.Int
 
+        ''  getWorkTicketbyOrderID = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
 
 
         getWorkTicketbyOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
@@ -35,19 +36,19 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getOrderQuotationOrderID(id As Integer) As SqlClient.SqlDataAdapter
+    Public Function getOrderVORequestByID(id As Integer) As SqlClient.SqlDataAdapter
 
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[REPORT_order_quotation_by_order_id]"
+        Dim sp As String = "[REPORT_order_vo_request_by_id]"
         Dim strParameter As String = "@id"
         Dim strType As String = SqlDbType.Int
         Dim strQueryString As String = id
 
 
-        getOrderQuotationOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
+        getOrderVORequestByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, strParameter, strType, strQueryString)
 
 
 

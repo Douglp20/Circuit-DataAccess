@@ -72,6 +72,7 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+
     Public Function InsertVORequestItem(ByRef Values As ArrayList)
 
         On Error GoTo Err
@@ -209,6 +210,40 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
+    Public Function UpdateTransferToNotes(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Update_Order_Phase5_voRequest_transfersToNotes_by_OrderID]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@OrderID")
+        Parameter.Add("@VORequestID")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+
+
+
+
 #End Region
 #Region "Phase 3 Certificate"
     Public Sub SaveOrderVORequest(ByRef Value As ArrayList)

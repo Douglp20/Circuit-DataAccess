@@ -10,6 +10,26 @@
     End Sub
 
 #Region "Bonus"
+    Public Function getOrderBonusByOrderSearch(value As String) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Staff_get_order_bonus_by_order_search]"
+        Dim Parameter As String = "@Search"
+        Dim Type As String = SqlDbType.VarChar
+
+
+        getOrderBonusByOrderSearch = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        If Err.Number > 0 Then RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+
     Public Function getStaffBonusbyStaffID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -66,6 +86,7 @@ Err:
 
 
         Parameter.Add("@StaffID")
+        Parameter.Add("@OrderID")
         Parameter.Add("@Hour")
         Parameter.Add("@Rate")
         Parameter.Add("@Labour")
@@ -74,6 +95,7 @@ Err:
         Parameter.Add("@option")
         Parameter.Add("@UserName")
 
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.SmallMoney)
         Type.Add(SqlDbType.SmallMoney)
@@ -706,7 +728,119 @@ Err:
     End Function
 
 #End Region
-#Region "Staff Absence Load Data"
+#Region "Staff Absence"
+    Public Function getStaffHolidayInfoByDate(value As ArrayList) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[StaffAbsence_get_absence_viewer]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@Month")
+        Parameter.Add("@Year")
+
+        Type.Add(SqlDbType.Char)
+        Type.Add(SqlDbType.Int)
+
+
+        getStaffHolidayInfoByDate = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getStaffInfoByLoginID(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_info_by_LoginID]"
+        Dim Parameter As String = "@LoginID"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getStaffInfoByLoginID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getStaffInfoByStaffID(value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_info_by_staffID]"
+        Dim Parameter As String = "@StaffID"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getStaffInfoByStaffID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+    Public Function getPublicHolidayByDate(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[StaffAbsence_get_public_hoilday_By_date]"
+        Dim Parameter As String = "@Date"
+        Dim Type As String = SqlDbType.VarChar
+
+
+
+        getPublicHolidayByDate = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function getStaffAbsenceNew() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[StaffAbsence_get_Absence_New]"
+        'Dim Parameter As String = "@StaffID"
+        'Dim Type As String = SqlDbType.Int
+
+
+
+        getStaffAbsenceNew = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
     Public Function getStaffAbsencebyYear(ByRef arrValuesPass As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -797,18 +931,18 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getStaffDaysOfWeek(ID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getStaffDaysOfWeek(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
         Dim sp As String = "[StaffAbsence_get_staff_workdays_By_StaffID]"
         Dim Parameter As String = "@Staffid"
-        Dim strType As String = SqlDbType.Int
-        Dim strQueryString As String = ID
+        Dim Type As String = SqlDbType.Int
 
 
-        getStaffDaysOfWeek = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
+
+        getStaffDaysOfWeek = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -920,6 +1054,35 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Date)
+        Type.Add(SqlDbType.VarChar)
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+    Public Function UpdateStaffAbsenceApproval(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Update_staff_absence_approval]"
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@ID")
+        Parameter.Add("@ActionStatus")
+        Parameter.Add("@Notes")
+        Parameter.Add("@UserName")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)

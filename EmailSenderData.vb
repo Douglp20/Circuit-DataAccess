@@ -13,6 +13,78 @@
     End Sub
 #End Region
 
+#Region "Cancallation"
+
+    Public Function GetOrderNoAccessCancelationData(value As ArrayList) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_order_noAccess_cancelation_by_id]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@Index")
+        Parameter.Add("@ID")
+
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+
+
+
+        GetOrderNoAccessCancelationData = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Sub UpdateOrderNoAccessCancelationAsSent(value As Integer)
+        On Error GoTo Err
+
+
+        Dim sp As String = "[update_email_order_noAccess_sent]"
+
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        ViperCon.ExecuteProcessWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+
+    Public Function GetOrderCancelationData(value As Integer) As SqlClient.SqlDataAdapter
+        On Error GoTo Err
+
+
+        Dim sp As String = "[EMAIL_order_cancelation_by_id]"
+
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        GetOrderCancelationData = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString(), sp, Parameter, Type, value)
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+#End Region
 #Region "VO Request"
     Public Sub VORequestEmailSent(value As Integer)
         On Error GoTo Err
@@ -343,9 +415,6 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-
-
-
 
     Public Sub UpdateMailOrderWorkSheet(value As ArrayList)
         On Error GoTo Err

@@ -15,12 +15,12 @@
 #End Region
 
 #Region " Sub Company"
-    Public Function InsertCompanySub(ByRef arrValues As ArrayList) As Integer
+    Public Function InsertCompanyBranch(ByRef arrValues As ArrayList) As Integer
 
         On Error GoTo Err
 
 
-        Dim storeProcedure As String = "[insert_company_sub]"
+        Dim storeProcedure As String = "[insert_company_branch]"
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
         Dim ParameterOutput As String = "@ID"
@@ -44,7 +44,7 @@
         Type.Add(SqlDbType.VarChar)
 
 
-        InsertCompanySub = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, storeProcedure, Parameter, ParameterOutput, Type, arrValues)
+        InsertCompanyBranch = ViperCon.ExecuteProcessWithParametersReturnInteger(connection.ConnectionString, storeProcedure, Parameter, ParameterOutput, Type, arrValues)
 
 
         Exit Function
@@ -53,7 +53,7 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function UpdateCompanySub(ByRef arrValues As ArrayList)
+    Public Function UpdateCompanyBranch(ByRef arrValues As ArrayList)
 
         On Error GoTo Err
 
@@ -62,7 +62,7 @@ Err:
 
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
-        Dim SP As String = "[update_company_sub]"
+        Dim SP As String = "[update_company_branch]"
 
 
 
@@ -73,6 +73,7 @@ Err:
         Parameter.Add("@notes")
         Parameter.Add("@worksheetnotes")
         Parameter.Add("@disabled")
+        Parameter.Add("@TypeIndex")
         Parameter.Add("@UserName")
 
         Type.Add(SqlDbType.Int)
@@ -82,6 +83,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
 
 
@@ -94,18 +96,18 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getCompanySubByID(value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanyBranchByCompanyID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[Company_get_company_sub_by_id]"
-        Dim Parameter As String = "@id"
+        Dim sp As String = "[Company_get_company_branch_by_CompanyID]"
+        Dim Parameter As String = "@companyid"
         Dim Type As String = SqlDbType.Int
 
 
 
-        getCompanySubByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        getCompanyBranchByCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -118,18 +120,18 @@ Err:
 
 
 
-    Public Function getCompanySubInfobyID(value As Integer) As SqlClient.SqlDataAdapter
+    Public Function getCompanyBranchByID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
-        Dim sp As String = "[CompanySUB_get_company_sub_by_id]"
-        Dim Parameter As String = "@id"
+        Dim sp As String = "[Company_get_company_branch_by_id]"
+        Dim Parameter As String = "@branchID"
         Dim Type As String = SqlDbType.Int
 
 
 
-        getCompanySubInfobyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+        getCompanyBranchByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -560,8 +562,8 @@ Err:
         Parameter.Add("@Company")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
-        Parameter.Add("@emailGlobal")
-        Parameter.Add("@emailCancelled")
+        Parameter.Add("@TypeIndex")
+        Parameter.Add("@VORequestLimit")
         Parameter.Add("@worksheetnotes")
         Parameter.Add("@notes")
         Parameter.Add("@invoice_materials_percent")
@@ -586,7 +588,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -775,12 +777,16 @@ Err:
         Parameter.Add("@companySubid")
         Parameter.Add("@jobtypeid")
         Parameter.Add("@percentage")
+        Parameter.Add("@WorksheetNotes")
+        Parameter.Add("@VORequestLimit")
         Parameter.Add("@UserName")
 
         Dim Type As New ArrayList
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
 

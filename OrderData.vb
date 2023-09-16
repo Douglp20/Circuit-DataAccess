@@ -74,7 +74,7 @@ Err:
 
         On Error GoTo Err
 
-        Dim sp As String = "[Order_get_phase5_vo_requestID_by_OrderID]"
+        Dim sp As String = "[Order_get_phase5_vo_request_by_OrderID]"
 
         Dim Parameter As String = "@OrderID"
 
@@ -373,7 +373,7 @@ Err:
         On Error GoTo Err
 
 
-        Dim sp As String = "[ORDER_get_company_sub_new_order_by_id]"
+        Dim sp As String = "[ORDER_get_CompanyBranch_new_order_by_id]"
         Dim Parameter As String = "@id"
         Dim Type As String = SqlDbType.Int
 
@@ -1284,7 +1284,7 @@ Err:
         Parameter.Add("@companyID")
         Parameter.Add("@CompanySubID")
         Parameter.Add("@coded")
-        Parameter.Add("@Cancelled")
+        Parameter.Add("@CancelIndex")
         Parameter.Add("@Address")
         Parameter.Add("@postcode")
         Parameter.Add("@orderNumber")
@@ -1296,7 +1296,6 @@ Err:
         Parameter.Add("@Tenant")
         Parameter.Add("@TenantEmail")
         Parameter.Add("@Priority")
-        Parameter.Add("@cancelledDate")
         Parameter.Add("@ContractNumber")
         Parameter.Add("@CherryPickerCheck")
         Parameter.Add("@MaterialOrdered")
@@ -1306,6 +1305,7 @@ Err:
         Parameter.Add("@OrderNotes")
         Parameter.Add("@userID")
         Parameter.Add("@saveforlaterCheck")
+        Parameter.Add("@payrollOrderCancel")
         Parameter.Add("@UserName")
 
 
@@ -1313,7 +1313,7 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Bit)
-        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -1326,6 +1326,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.DateTime)
@@ -1335,9 +1336,8 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
-
-
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
@@ -1378,6 +1378,7 @@ Err:
         Parameter.Add("@calloutNumber")
         Parameter.Add("@ClientJobNumber")
         Parameter.Add("@OrderNotes")
+        Parameter.Add("@CancelIndex")
         Parameter.Add("@UserName")
 
 
@@ -1400,6 +1401,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
 
 

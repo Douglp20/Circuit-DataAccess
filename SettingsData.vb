@@ -49,8 +49,8 @@ Err:
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.DateTime)
+        Type.Add(SqlDbType.DateTime)
         Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, Value)
@@ -117,6 +117,7 @@ Err:
         Parameter.Add("@emailHeader")
         Parameter.Add("@CallOutDefaultCode")
         Parameter.Add("@displayOutlook")
+        Parameter.Add("@cancellationMessage")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
@@ -139,6 +140,7 @@ Err:
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, arrValues)
 
