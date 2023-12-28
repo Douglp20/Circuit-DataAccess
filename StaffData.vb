@@ -729,6 +729,43 @@ Err:
 
 #End Region
 #Region "Staff Absence"
+    Public Function getAllStaffAbsenceUsers() As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Staff_get_all_Staff_absence_users]"
+
+        getAllStaffAbsenceUsers = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Function
+    Public Function getStaffAbsenceBySearch(searchValue As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+
+        Dim sp As String = "[Staff_get_staff_absence_by_search]"
+        Dim Parameter As String = "@search"
+        Dim strType As String = SqlDbType.VarChar
+        Dim strQueryString As String = searchValue
+
+
+        getStaffAbsenceBySearch = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, strType, strQueryString)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getStaffHolidayInfoByDate(value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -1046,11 +1083,13 @@ Err:
 
 
         Parameter.Add("@staffabsenceID")
+        Parameter.Add("@staffID")
         Parameter.Add("@dayName")
         Parameter.Add("@AbsenceDate")
         Parameter.Add("@daySession")
 
 
+        Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Date)

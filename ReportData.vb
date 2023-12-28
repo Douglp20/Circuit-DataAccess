@@ -20,10 +20,11 @@
 
 
         Dim sp As String = "[REPORT_work_ticket_by_order_id]"
+
         Dim Parameter As String = "@id"
         Dim Type As String = SqlDbType.Int
 
-        ''  getWorkTicketbyOrderID = ViperCon.getSqlDataAdapter(connection.ConnectionString, sp)
+
 
 
         getWorkTicketbyOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
@@ -158,7 +159,7 @@ Err:
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
         Parameter.Add("@companyID")
-        Parameter.Add("Index")
+        Parameter.Add("@Index")
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)

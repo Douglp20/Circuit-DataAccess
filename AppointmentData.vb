@@ -97,26 +97,27 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
 
     End Function
-    Public Function getAppointmentByDateReturnCount(selDate As String, staffID As Integer) As SqlClient.SqlDataAdapter
+    Public Function getAppointmentByDateReturnCount(value As ArrayList) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
         Dim sp As String = "[Appointment_get_appointment_by_date_ReturnCount]"
 
-        Dim arrParameter As New ArrayList
-        arrParameter.Add("@date")
-        arrParameter.Add("@staffID")
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        Parameter.Add("@date")
+        Parameter.Add("@staffID")
 
 
-        Dim arrType As New ArrayList
-        arrType.Add(SqlDbType.VarChar)
-        arrType.Add(SqlDbType.Int)
 
-        Dim arrQueryString As New ArrayList
-        arrQueryString.Add(selDate)
-        arrQueryString.Add(staffID)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
 
-        getAppointmentByDateReturnCount = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, arrParameter, arrType, arrQueryString)
+
+
+        getAppointmentByDateReturnCount = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString(), sp, Parameter, Type, value)
 
 
 

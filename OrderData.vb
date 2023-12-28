@@ -661,6 +661,7 @@ Err:
 
 
     End Function
+
     Public Function getOrderDataSearchReturnCount(ByRef value As String) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
@@ -1424,9 +1425,6 @@ Err:
         Dim Type As New ArrayList
 
         Parameter.Add("@ID")
-        Parameter.Add("@Tenant")
-        Parameter.Add("@Priority")
-        Parameter.Add("@contractEmail")
         Parameter.Add("@OrderNotes")
         Parameter.Add("@Action")
         Parameter.Add("@ActionText")
@@ -1435,12 +1433,7 @@ Err:
 
 
 
-
-
         Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)

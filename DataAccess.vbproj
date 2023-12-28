@@ -123,6 +123,7 @@
     <Compile Include="ServicesData.vb" />
     <Compile Include="SettingsData.vb" />
     <Compile Include="StaffData.vb" />
+    <Compile Include="SystemProcessData.vb" />
     <Compile Include="TaskAssignmentData.vb" />
     <Compile Include="TemplateData.vb" />
     <Compile Include="TimesheetData.vb" />

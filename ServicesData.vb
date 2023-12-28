@@ -6,6 +6,31 @@
 
     Private WithEvents ViperCon As New Douglas.Viper.Connection.Connection()
     Private connection As New Connection
+
+#Region "Phase Service"
+    Public Sub ExecPhaseService()
+        On Error GoTo Err
+
+
+
+        Dim sp As String = "[Update_service_order_dashboard]"
+
+
+
+        ViperCon.ExecuteProcess(connection.ConnectionString(), sp)
+
+
+
+        Exit Sub
+
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+    End Sub
+#End Region
+
 #Region "Get Data"
     Public Function getServiceSchedule() As SqlClient.SqlDataAdapter
         On Error GoTo Err

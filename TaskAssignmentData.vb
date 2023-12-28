@@ -236,6 +236,26 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
+    Public Function getTastAssignmentNotificationByID(value As String) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Task_get_taskAssignment_notification_by_ID]"
+        Dim Parameter As String = "@ID"
+        Dim Type As String = SqlDbType.Int
+
+
+
+        getTastAssignmentNotificationByID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
     Public Function getAllStaff() As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

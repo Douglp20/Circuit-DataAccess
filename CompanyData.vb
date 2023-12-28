@@ -30,15 +30,11 @@
         Parameter.Add("@CompanyID")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
-        Parameter.Add("@notes")
-        Parameter.Add("@worksheetnotes")
         Parameter.Add("@UserName")
 
 
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
@@ -67,24 +63,52 @@ Err:
 
 
         Parameter.Add("@id")
+        Parameter.Add("@TypeIndex")
         Parameter.Add("@Company")
         Parameter.Add("@Address")
         Parameter.Add("@Postcode")
         Parameter.Add("@notes")
-        Parameter.Add("@worksheetnotes")
+        Parameter.Add("@batchOrderLimit")
+        Parameter.Add("@SageACRef")
+        Parameter.Add("@batchExcelRef")
+        Parameter.Add("@invoice_materials_percent")
         Parameter.Add("@disabled")
-        Parameter.Add("@TypeIndex")
+        Parameter.Add("@voids_nonvoids_reports")
+        Parameter.Add("@retention_req")
+        Parameter.Add("@levy_req")
+        Parameter.Add("@daily_appointment_reports")
+        Parameter.Add("@correctionAppChecked")
+        Parameter.Add("@monthly_valuation_report")
+        Parameter.Add("@vat_charge")
+        Parameter.Add("@portal_update")
+        Parameter.Add("@batch_invoice")
+        Parameter.Add("@emailCancelledCheck")
         Parameter.Add("@UserName")
+
 
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.VarChar)
-        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Text)
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+
 
 
         ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, SP, Parameter, Type, arrValues)
@@ -338,28 +362,33 @@ Err:
         Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
-    Public Function getCompanyContactbyCompanyID(value As ArrayList) As SqlClient.SqlDataAdapter
+    Public Function getCompanyContactbyCompanyID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err
 
 
         Dim sp As String = "[Company_get_company_contact_by_companyID]"
-        Dim Parameter As New ArrayList
-        Dim Type As New ArrayList
+        Dim Parameter As String = "@companyID"
+        Dim Type As String = SqlDbType.Int
+
+        getCompanyContactbyCompanyID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+        'Dim Parameter As New ArrayList
+        'Dim Type As New ArrayList
 
 
 
 
-        Parameter.Add("@companyID")
-        Parameter.Add("@companySubID")
-        Parameter.Add("@Type")
+        'Parameter.Add("@companyID")
+        'Parameter.Add("@companySubID")
+        'Parameter.Add("@Type")
 
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.Int)
-        Type.Add(SqlDbType.VarChar)
+        'Type.Add(SqlDbType.Int)
+        'Type.Add(SqlDbType.Int)
+        'Type.Add(SqlDbType.VarChar)
 
 
-        getCompanyContactbyCompanyID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
+        'getCompanyContactbyCompanyID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 
 
@@ -446,9 +475,8 @@ Err:
         Dim Parameter As New ArrayList
         Dim Type As New ArrayList
 
-        Parameter.Add("@companyID")
-        Parameter.Add("@companySubID")
-
+        Parameter.Add("@CompanyID")
+        Parameter.Add("@CompanySubID")
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
 
@@ -495,11 +523,8 @@ Err:
 
         Parameter.Add("@CompanyID")
         Parameter.Add("@CompanySubID")
-
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.Int)
-
-
         getCompanyJobTypeByCompanyID = ViperCon.getSqlDataAdapterWithParameters(connection.ConnectionString, sp, Parameter, Type, value)
 
 

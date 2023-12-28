@@ -274,7 +274,7 @@ Err:
         Dim Type As New ArrayList
 
         Parameter.Add("@companyID")
-        Parameter.Add("@companySubID")
+        Parameter.Add("@companysubID")
         Parameter.Add("@index")
 
         Type.Add(SqlDbType.Int)
@@ -414,6 +414,43 @@ Err:
         Type.Add(SqlDbType.Int)
         Type.Add(SqlDbType.VarChar)
         Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Bit)
+        Type.Add(SqlDbType.VarChar)
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Values)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Function
+
+    Public Function SaveZoneDetail(ByRef Values As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String
+
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+        sp = "[Update_maintenance_zone]"
+
+        Parameter.Add("@ID")
+        Parameter.Add("@zone")
+        Parameter.Add("@area")
+        Parameter.Add("@rate")
+        Parameter.Add("@disabled")
+        Parameter.Add("@UserName")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.VarChar)
+        Type.Add(SqlDbType.Money)
         Type.Add(SqlDbType.Bit)
         Type.Add(SqlDbType.VarChar)
 
