@@ -15,6 +15,22 @@
 
 #End Region
 
+    Public Function ConnectionChecker() As Boolean
+
+        On Error GoTo Err
+
+
+        Return Connection.ConnectionChecker()
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + ToString() + "."
+
+        RaiseEvent errorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
 #Region "The Login Process "
 
 

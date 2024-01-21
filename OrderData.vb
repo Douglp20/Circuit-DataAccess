@@ -47,7 +47,48 @@ Err:
 
 
 #Region "Order PO Request"
+    Public Function getPhase5VORequestItemInfoByItemID(ByRef value As Integer) As SqlClient.SqlDataAdapter
 
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_phase5_vo_request_item_Info_by_ItemID]"
+
+        Dim Parameter As String = "@ItemID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getPhase5VORequestItemInfoByItemID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
+    Public Function getPhase5VORequestOrderInfoIDByOrderID(ByRef value As Integer) As SqlClient.SqlDataAdapter
+
+        On Error GoTo Err
+
+        Dim sp As String = "[Order_get_phase5_vo_request_orderInfo_by_OrderID]"
+
+        Dim Parameter As String = "@OrderID"
+
+        Dim Type As String = SqlDbType.Int
+
+        getPhase5VORequestOrderInfoIDByOrderID = ViperCon.getSqlDataAdapterWithParameter(connection.ConnectionString, sp, Parameter, Type, value)
+
+
+        Exit Function
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+
+
+    End Function
     Public Function getPhase5VORequestItemCountByOrderID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

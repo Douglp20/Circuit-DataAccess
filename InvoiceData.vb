@@ -524,6 +524,36 @@ Err:
         RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
     End Function
 #End Region
+
+    Public Sub UpdateBatchInvoiceNotes(ByRef Value As ArrayList)
+
+        On Error GoTo Err
+
+        Dim sp As String = "[update_BatchInvoice_Notes]"
+
+        Dim Parameter As New ArrayList
+        Dim Type As New ArrayList
+
+
+        Parameter.Add("@AppID")
+        Parameter.Add("@Notes")
+
+        Type.Add(SqlDbType.Int)
+        Type.Add(SqlDbType.VarChar)
+
+
+
+        ViperCon.ExecuteProcessWithParameters(connection.ConnectionString, sp, Parameter, Type, Value)
+
+
+
+        Exit Sub
+
+Err:
+        Dim rtn As String = "The error occur within the module " + System.Reflection.MethodBase.GetCurrentMethod().Name + " : " + Me.ToString() + "."
+        RaiseEvent ErrorMessage(Err.Description, Err.Number, rtn)
+    End Sub
+
     Public Function getInvoiceDataByInvoiceID(value As Integer) As SqlClient.SqlDataAdapter
 
         On Error GoTo Err

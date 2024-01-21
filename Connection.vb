@@ -51,4 +51,27 @@
 
         Return VenomSecurity.Decode(connnectionEnvironment.ToString())
     End Function
+    Public Function ConnectionChecker() As Boolean
+
+        Try
+
+
+            Dim strConnectionString As String = getConnection()
+
+
+            Dim cmd As New SqlClient.SqlCommand()
+            Dim con As New SqlClient.SqlConnection(strConnectionString)
+            con.Open()
+
+            cmd.Connection = con
+
+            Dim apt As New SqlClient.SqlDataAdapter(cmd)
+
+            con.Close()
+            ConnectionChecker = True
+
+        Catch ex As Exception
+            ConnectionChecker = False
+        End Try
+    End Function
 End Class
